@@ -219,7 +219,8 @@ int main(int argc, const char * argv[]) {
         vms[i] = rand();
         vus[i] = rand();
     }
-    /*Ordenacao com BubbleSort
+    
+     //Ordenacao com BubbleSort
      printf("=============================================\n");
      printf("Ordenacao com BubbleSort: \n");
      printf("=============================================\n");
@@ -232,7 +233,7 @@ int main(int argc, const char * argv[]) {
      printf("Passos da ordenacao: \n");
      printf("---------------------------------------------\n");
      BubbleSort(vbs, tamanho);
-     */
+    
     
     /*Ordenacao com QuickSort
      printf("\n\n\n=============================================\n");
