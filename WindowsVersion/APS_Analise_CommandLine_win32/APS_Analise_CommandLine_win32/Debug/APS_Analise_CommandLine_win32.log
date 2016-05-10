@@ -1,0 +1,3 @@
+﻿  APS_Analise_CommandLine_win32.cpp
+c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\aps_analise_commandline_win32\aps_analise_commandline_win32\aps_analise_commandline_win32.cpp(139): warning C4101: 'k': unreferenced local variable
+  APS_Analise_CommandLine_win32.vcxproj -> C:\Users\Paulo\Documents\GitHub\UNIP\APS\APS_analise\WindowsVersion\APS_Analise_CommandLine_win32\Debug\APS_Analise_CommandLine_win32.exe
