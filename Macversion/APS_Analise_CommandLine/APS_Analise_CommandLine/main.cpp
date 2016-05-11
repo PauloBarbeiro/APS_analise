@@ -26,12 +26,22 @@
     #include <unistd.h>
 #endif
 
+#include "json.hpp"
+
+#include <fstream>
+
+using json = nlohmann::json;
+
 /*
  Referencias:
     http://www.cplusplus.com/reference/ctime/difftime/
     http://www.cplusplus.com/reference/ctime/clock/
     http://stackoverflow.com/questions/23378063/how-can-i-use-mach-absolute-time-without-overflowing
     https://developer.apple.com/library/mac/qa/qa1398/_index.html
+ 
+ Json:
+ https://github.com/nlohmann/json
+ 
  
  */
 
@@ -323,7 +333,8 @@ int main(int argc, const char * argv[]) {
      printf("Passos da ordenacao: \n");
      printf("---------------------------------------------\n");
     
-    /*
+    
+    
     //variáveis para contagem de tempo por segundos
     time_t startTime, endTime;
     double seconds;
@@ -339,15 +350,16 @@ int main(int argc, const char * argv[]) {
     uint64_t start_b, end_b, elapsed_b;
     
     
+    
     time( &startTime );
     t = clock();
     start = mach_absolute_time();
     start_b = monotonicTimeNanos();
-    */
+    
     
      BubbleSort(vbs, tamanho);
     
-    /*
+    
     time( &endTime );
     t = clock() - t;
     end = mach_absolute_time();
@@ -366,14 +378,49 @@ int main(int argc, const char * argv[]) {
     elapsed_b = end_b - start_b;
     
     
-    printf("BubbleSort duração: %f segundos (Usando ctime)\n", seconds);
-    printf("BubbleSort clock ticks: %lu ticks - %f segundos  (Usando clock)\n", t, ((float)t)/CLOCKS_PER_SEC );
+    printf("\n\nBubbleSort duração: %f segundos (Usando ctime)\n", seconds);
+    printf("BubbleSort clock ticks: %lu (%f segundos  (Usando clock: tempo é IMPRECISO)\n", t, ((float)t)/CLOCKS_PER_SEC );
     
-    std::cout << "BubblseSort segundos: " << elapsed/1000000000.00 << " :: nanosegundos: " << elapsed << "\n" << end;
-    std::cout << "BubblseSort nanosegundos from Mach: " << elapsedNano << "\n" << end;
+    std::cout << "BubblseSort segundos: " << elapsed/1000000000.00 << " :: nanosegundos: " << elapsed << std::endl;
+    std::cout << "BubblseSort nanosegundos from Mach: " << elapsedNano <<  std::endl;
     
-    std::cout << "BubblseSort nanosegundos from Mach 2: " << elapsed_b << "\n" << end;
-    */
+    //std::cout << "BubblseSort nanosegundos from Mach 2: " << elapsed_b << std::endl;
+    
+    
+    // variáveis para Json
+    std::string algoritmo = "BubbleSort";
+    char inicio[20];
+    std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
+    char fim[20];
+    std::strftime(fim, 20, "%Y-%m-%d %H:%M:%S", localtime(&endTime));
+    
+    // create an array value
+    json array = {
+        {"algoritmo",   algoritmo},
+        {"inicio",      inicio},
+        {"fim",         fim},
+        {"ticks",       t},
+        {"duracao",     (elapsed/1000000000.00)}
+    };
+    
+    // get am iterator to the first element
+    //json::iterator it = array.begin();
+    
+    // serialize the element that the iterator points to
+    //std::cout << array << '\n';
+    //std::cout << *it << '\n';
+    
+    std::cout << std::setw(4) << array << std::endl;
+    std::string format = ".json";
+    std::string fileName = algoritmo+"-"+inicio+format;
+    std::cout << fileName << std::endl;
+    
+    std::ofstream jsonFile;
+    
+    jsonFile.open(fileName);
+    jsonFile << std::setw(4) << array << std::endl;
+    jsonFile.close();
+    
     
     /*
      Ordenacao com QuickSort
