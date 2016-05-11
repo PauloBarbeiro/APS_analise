@@ -11,8 +11,32 @@
 #include <curses.h>
 #include <stdlib.h>
 
+#include <sys/timeb.h>
+#include <ctime>
+
+#include <time.h>
+#include <math.h>
+
+#ifdef __MACH__
+    #include <assert.h>
+    #include <CoreServices/CoreServices.h>
+    #include <mach/clock.h>
+    #include <mach/mach.h>
+    #include <mach/mach_time.h>
+    #include <unistd.h>
+#endif
+
+/*
+ Referencias:
+    http://www.cplusplus.com/reference/ctime/difftime/
+    http://www.cplusplus.com/reference/ctime/clock/
+    http://stackoverflow.com/questions/23378063/how-can-i-use-mach-absolute-time-without-overflowing
+    https://developer.apple.com/library/mac/qa/qa1398/_index.html
+ 
+ */
+
 //Define o tam que o vetor tem
-#define tamanho 7
+#define tamanho 100
 
 //Algoritmo de ordenacao BubbleSort
 void BubbleSort(int* v, int tam){
@@ -195,6 +219,72 @@ void MergeSort(int* v, int inicio, int fim){
 
 
 
+//Helper functions ##################################################################################
+
+
+
+uint64_t getExpressibleSpan(uint32_t numer, uint32_t denom) {
+    // This is just less than the smallest thing we can multiply numer by without
+    // overflowing. ceilLog2(numer) = 64 - number of leading zeros of numer
+    
+    //uint64_t maxDiffWithoutOverflow = ((uint64_t)1 << (64 - ceilLog2(numer))) - 1;
+    uint64_t maxDiffWithoutOverflow = ((uint64_t)1 << (uint64_t)(64 - ceil(log2(numer)) )) - 1;
+    return maxDiffWithoutOverflow * numer / denom;
+}
+
+// This function returns the rational number inside the given interval with
+// the smallest denominator (and smallest numerator breaks ties; correctness
+// proof neglects floating-point errors).
+static mach_timebase_info_data_t bestFrac(double a, double b) {
+    if (floor(a) < floor(b))
+    { mach_timebase_info_data_t rv = {static_cast<uint32_t>((int)ceil(a)), 1}; return rv; }
+    double m = floor(a);
+    mach_timebase_info_data_t next = bestFrac(1/(b-m), 1/(a-m));
+    mach_timebase_info_data_t rv = {(int)m*next.numer + next.denom, next.numer};
+    return rv;
+}
+
+// Returns monotonic time in nanos, measured from the first time the function
+// is called in the process.  The clock may run up to 0.1% faster or slower
+// than the "exact" tick count. However, although the bound on the error is
+// the same as for the pragmatic answer, the error is actually minimized over
+// the given accuracy bound.
+uint64_t monotonicTimeNanos() {
+    uint64_t now = mach_absolute_time();
+    static struct Data {
+        Data(uint64_t bias_) : bias(bias_) {
+            kern_return_t mtiStatus = mach_timebase_info(&tb);
+            assert(mtiStatus == KERN_SUCCESS);
+            double frac = (double)tb.numer/tb.denom;
+            uint64_t spanTarget = 315360000000000000llu; // 10 years
+            if ( getExpressibleSpan(tb.numer, tb.denom) >= spanTarget )
+                return;
+            for (double errorTarget = 1/1024.0; errorTarget > 0.000001;) {
+                mach_timebase_info_data_t newFrac =
+                bestFrac((1-errorTarget)*frac, (1+errorTarget)*frac);
+                if (getExpressibleSpan(newFrac.numer, newFrac.denom) < spanTarget)
+                    break;
+                tb = newFrac;
+                errorTarget = fabs((double)tb.numer/tb.denom - frac) / frac / 8;
+            }
+            //assert(getExpressibleSpan(tb.numer, tb.denom) >= spanTarget);
+        }
+        mach_timebase_info_data_t tb;
+        uint64_t bias;
+    } data(now);
+    return (now - data.bias) * data.tb.numer / data.tb.denom;
+}
+
+
+
+
+//##############################################################################################################
+
+
+
+
+
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -232,10 +322,61 @@ int main(int argc, const char * argv[]) {
      printf("\n---------------------------------------------\n");
      printf("Passos da ordenacao: \n");
      printf("---------------------------------------------\n");
+    
+    /*
+    //variáveis para contagem de tempo por segundos
+    time_t startTime, endTime;
+    double seconds;
+    
+    //variáveis para contagem de clocks
+    clock_t t;
+    
+    //variáveis para mach
+    uint64_t start,end, elapsed, elapsedNano;
+    static mach_timebase_info_data_t sTimebaseInfo;
+    
+    // variáveis para uma tentativa de aprimoramento do uso do mach
+    uint64_t start_b, end_b, elapsed_b;
+    
+    
+    time( &startTime );
+    t = clock();
+    start = mach_absolute_time();
+    start_b = monotonicTimeNanos();
+    */
+    
      BubbleSort(vbs, tamanho);
     
+    /*
+    time( &endTime );
+    t = clock() - t;
+    end = mach_absolute_time();
+    end_b = monotonicTimeNanos();
     
-    /*Ordenacao com QuickSort
+    
+    elapsed = end - start;
+    if ( sTimebaseInfo.denom == 0 ) {
+        (void) mach_timebase_info(&sTimebaseInfo);
+    }
+    elapsedNano = elapsed * sTimebaseInfo.numer / sTimebaseInfo.denom;
+    
+    
+    seconds = difftime(endTime, startTime);
+    
+    elapsed_b = end_b - start_b;
+    
+    
+    printf("BubbleSort duração: %f segundos (Usando ctime)\n", seconds);
+    printf("BubbleSort clock ticks: %lu ticks - %f segundos  (Usando clock)\n", t, ((float)t)/CLOCKS_PER_SEC );
+    
+    std::cout << "BubblseSort segundos: " << elapsed/1000000000.00 << " :: nanosegundos: " << elapsed << "\n" << end;
+    std::cout << "BubblseSort nanosegundos from Mach: " << elapsedNano << "\n" << end;
+    
+    std::cout << "BubblseSort nanosegundos from Mach 2: " << elapsed_b << "\n" << end;
+    */
+    
+    /*
+     Ordenacao com QuickSort
      printf("\n\n\n=============================================\n");
      printf("Ordenacao com QuickSort: \n");
      printf("=============================================\n");
@@ -248,7 +389,7 @@ int main(int argc, const char * argv[]) {
      printf("Passos da ordenacao: \n");
      printf("---------------------------------------------\n");
      QuickSort(vqs, tamanho);
-     */
+    */
     
     /*Ordenacao com InsertionSort
      printf("\n\n\n=============================================\n");
@@ -316,3 +457,8 @@ int main(int argc, const char * argv[]) {
     
     return 0;
 }
+
+
+
+
+
