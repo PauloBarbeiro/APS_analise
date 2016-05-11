@@ -4,8 +4,25 @@
 #include "stdafx.h"
 
 #include<stdio.h>
+#include<iostream>
 #include<conio.h>
 #include<stdlib.h>
+
+#include <Windows.h>
+#include <sys/timeb.h>
+#include <ctime>
+
+#include <time.h>
+#include <math.h>
+
+#include "json.h"
+
+#include <fstream>
+
+
+
+
+using json = nlohmann::json;
 
 //Define o tam que o vetor tem
 #define tamanho 7
@@ -225,8 +242,65 @@ void main() {
 	printf("\n---------------------------------------------\n");
 	printf("Passos da ordenacao: \n");
 	printf("---------------------------------------------\n");
+
+	//variáveis para contagem de tempo por segundos
+	time_t startTime, endTime;
+	double seconds;
+
+	//variáveis para contagem de clocks
+	clock_t t;
+
+	/*
+	http://stackoverflow.com/questions/14337278/precise-time-measurement
+	*/
+	LARGE_INTEGER	frequency;        // ticks per second
+	LARGE_INTEGER t1, t2;           // ticks
+	double elapsedTime;
+
+	// get ticks per second
+	QueryPerformanceFrequency(&frequency);
+
+	
+
+
+	time(&startTime);
+	t = clock();
+
+	// start timer
+	QueryPerformanceCounter(&t1);
+
+
 	BubbleSort(vbs, tamanho);
 	
+	// stop timer
+	QueryPerformanceCounter(&t2);
+
+	time(&endTime);
+	t = clock() - t;
+	seconds = difftime(endTime, startTime);
+
+	// compute and print the elapsed time in millisec
+	elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
+
+	printf("\n\nBubbleSort duração: %f segundos (Usando ctime)\n", seconds);
+	printf("BubbleSort clock ticks: %lu (%f segundos  (Usando clock: tempo é IMPRECISO)\n", t, ((float)t) / CLOCKS_PER_SEC);
+
+	std::cout << "BubbleSort Windows time cout: " << elapsedTime << " :: t1: " << t1.QuadPart << " :: t2: " << t2.QuadPart << " :: freq: " << frequency.QuadPart << std::endl;
+
+
+	json array = { {"shit", 0} };
+
+	std::cout << std::setw(4) << array << std::endl;
+	std::string format = ".json";
+	std::string fileName = "BubbleSort" + format;
+	std::cout << fileName << std::endl;
+
+	std::ofstream jsonFile;
+
+	jsonFile.open(fileName);
+	jsonFile << std::setw(4) << array << std::endl;
+	jsonFile.close();
+
 
 	/*Ordenacao com QuickSort
 	printf("\n\n\n=============================================\n");
