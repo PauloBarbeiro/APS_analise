@@ -46,7 +46,7 @@ using json = nlohmann::json;
  */
 
 //Define o tam que o vetor tem
-#define tamanho 100
+#define tamanho 150
 
 //Algoritmo de ordenacao BubbleSort
 void BubbleSort(int* v, int tam){
@@ -397,6 +397,7 @@ int main(int argc, const char * argv[]) {
     // create an array value
     json array = {
         {"algoritmo",   algoritmo},
+        {"tamanho", tamanho},
         {"inicio",      inicio},
         {"fim",         fim},
         {"ticks",       t},
@@ -412,15 +413,21 @@ int main(int argc, const char * argv[]) {
     
     std::cout << std::setw(4) << array << std::endl;
     std::string format = ".json";
-    std::string fileName = algoritmo+"-"+inicio+format;
-    std::cout << fileName << std::endl;
+    //std::string jsonFileName = algoritmo+"-"+inicio+format;
+    std::string jsonFileName = algoritmo+format;
+    std::string textFileName = algoritmo+".txt";
+    //std::cout << jsonFileName << std::endl;
     
     std::ofstream jsonFile;
+    std::ofstream textFile;
     
-    jsonFile.open(fileName);
+    jsonFile.open(jsonFileName, std::ios::app);
     jsonFile << std::setw(4) << array << std::endl;
     jsonFile.close();
     
+    textFile.open(textFileName, std::ios::app);
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tamanho << "|inicio:" << inicio << "|fim:" << fim << "|clockticks:" << t << "|duracao:" << (elapsed/1000000000.00) << std::endl;
+    textFile.close();
     
     /*
      Ordenacao com QuickSort
