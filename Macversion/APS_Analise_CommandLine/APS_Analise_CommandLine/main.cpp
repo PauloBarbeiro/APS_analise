@@ -30,6 +30,8 @@
 
 #include <fstream>
 
+#include "algoritmos_ordenacao.hpp"
+
 using json = nlohmann::json;
 
 /*
@@ -46,8 +48,8 @@ using json = nlohmann::json;
  */
 
 //Define o tam que o vetor tem
-#define tamanho 150
-
+#define tamanho 100
+/*
 //Algoritmo de ordenacao BubbleSort
 void BubbleSort(int* v, int tam){
     int i, j = tam, k;
@@ -69,7 +71,9 @@ void BubbleSort(int* v, int tam){
         }
     }while(trocou);
 }
+*/
 
+/*
 //Algoritmo de ordenacao QuickSort
 void QuickSort(int* v, int tam){
     int j = tam, k;
@@ -106,6 +110,7 @@ void QuickSort(int* v, int tam){
         printf("\n");
     }
 }
+*/
 
 //Algoritmo de ordenacao InsertionSort
 void InsertionSort(int* v, int tam){
@@ -333,7 +338,18 @@ int main(int argc, const char * argv[]) {
      printf("Passos da ordenacao: \n");
      printf("---------------------------------------------\n");
     
+    BubbleSort bubble;
+    QuickSort quick;
     
+    bubble.avaliaTempoDeExecucaoTotal(vbs, tamanho);
+    //bubble.avaliaClockTicksTotal(vbs, tamanho);
+    //bubble.avaliaTempoDeExecucaoParte1(vbs, tamanho);
+    //bubble.avaliaClockTicksParte1(vbs, tamanho);
+    
+    quick.avaliaTempoDeExecucaoTotal(vqs, tamanho);
+    //quick.avaliaClockTicksTotal(vqs, tamanho);
+    
+    /*
     
     //variáveis para contagem de tempo por segundos
     time_t startTime, endTime;
@@ -428,6 +444,7 @@ int main(int argc, const char * argv[]) {
     textFile.open(textFileName, std::ios::app);
     textFile << "algoritmo:" << algoritmo << "|tamanho:" << tamanho << "|inicio:" << inicio << "|fim:" << fim << "|clockticks:" << t << "|duracao:" << (elapsed/1000000000.00) << std::endl;
     textFile.close();
+    */
     
     /*
      Ordenacao com QuickSort
