@@ -25,9 +25,10 @@
 
 #endif /* algoritmos_ordenacao_hpp */
 
-class BubbleSort{
+class AlgoritmoParaTeste{
     
-    std::string algoritmo = "BubbleSort";
+public:
+    std::string algoritmo;
     
     //para timestamp
     time_t startTime, endTime;
@@ -38,6 +39,15 @@ class BubbleSort{
     
     //variáveis para clock ticks
     clock_t t;
+    void inicia(std::string nome){
+        algoritmo = nome;
+    }
+    
+    void gravaRegistroDeTempo(std::string nome, int tam);
+    void gravaRegistroDeTicks(std::string nome, int tam);
+};
+
+class BubbleSort : public AlgoritmoParaTeste{
     
 public:
     void avaliaTempoDeExecucaoTotal(int* v, int tam);
@@ -49,30 +59,12 @@ public:
     void avaliaTempoDeExecucaoParte2(int* v, int tam);
     void avaliaClockTicksParte2(int* v, int tam);
     
-private:
-    void imprimeVetorInicial();
-    void imprimeVetorFinal();
-    
-    void gravaRegistroDeTempo(std::string nome, int tam);
-    void gravaRegistroDeTicks(std::string nome, int tam);
 };
 
 
 
 
-class QuickSort{
-    
-    std::string algoritmo = "QuickSort";
-    
-    //para timestamp
-    time_t startTime, endTime;
-    char inicio[20], fim[20];
-    
-    //variáveis para duração
-    uint64_t start,end, elapsed;
-    
-    //variáveis para clock ticks
-    clock_t t;
+class QuickSort : public AlgoritmoParaTeste{
     
 public:
     void executaQuick(int* v, int tam);
@@ -86,10 +78,52 @@ public:
     void avaliaTempoDeExecucaoParte2(int* v, int tam);
     void avaliaClockTicksParte2(int* v, int tam);
     
-private:
-    void imprimeVetorInicial();
-    void imprimeVetorFinal();
+};
+
+
+
+class InsertionSort : public AlgoritmoParaTeste{
     
-    void gravaRegistroDeTempo(std::string nome, int tam);
-    void gravaRegistroDeTicks(std::string nome, int tam);
+public:
+    
+    void avaliaTempoDeExecucaoTotal(int* v, int tam);
+    void avaliaClockTicksTotal(int* v, int tam);
+    
+};
+
+
+
+class SelectionSort : public AlgoritmoParaTeste{
+    
+public:
+    
+    void avaliaTempoDeExecucaoTotal(int* v, int tam);
+    void avaliaClockTicksTotal(int* v, int tam);
+
+};
+ 
+
+
+
+class HeapSort : public AlgoritmoParaTeste{
+    
+public:
+    void PercorreArvore(int* v, int raiz, int folha);
+    
+    void avaliaTempoDeExecucaoTotal(int* v, int tam);
+    void avaliaClockTicksTotal(int* v, int tam);
+    
+};
+
+
+
+
+class MergeSort : public AlgoritmoParaTeste{
+    
+public:
+    void executaMergeSort(int* v, int inicio, int fim);
+    
+    void avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam);
+    void avaliaClockTicksTotal(int* v, int inicio, int fim, int tam);
+    
 };
