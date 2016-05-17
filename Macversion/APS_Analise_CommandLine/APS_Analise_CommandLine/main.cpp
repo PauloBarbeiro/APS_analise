@@ -30,6 +30,8 @@
 
 #include <fstream>
 
+#include <thread>
+
 #include "algoritmos_ordenacao.hpp"
 
 using json = nlohmann::json;
@@ -170,7 +172,9 @@ int main(int argc, const char * argv[]) {
         printf("\tOrdenacao com BubbleSort: %d \n", totalDeExec);
         printf("\t=============================================\n");
     
-        bubble.avaliaTempoDeExecucaoTotal(vbs, tamanho);
+        //std::thread t1 ( bubble.avaliaTempoDeExecucaoTotal);
+        
+        //bubble.avaliaTempoDeExecucaoTotal(vbs, tamanho)
         //bubble.avaliaClockTicksTotal(vbs, tamanho);
         //bubble.avaliaTempoDeExecucaoParte1(vbs, tamanho);
         //bubble.avaliaClockTicksParte1(vbs, tamanho);

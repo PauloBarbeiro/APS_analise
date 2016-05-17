@@ -19,6 +19,8 @@
 #endif
 
 #include <fstream>
+#include <thread>
+
 
 #include "algoritmos_ordenacao.h"
 
@@ -53,12 +55,20 @@
 
         https://www.cs.rutgers.edu/~pxk/416/notes/c-tutorials/gettime.html
 
+        THREADS
+        https://rafalcieslak.wordpress.com/2014/05/16/c11-stdthreads-managed-by-a-designated-class/
 
+        https://solarianprogrammer.com/2011/12/16/cpp-11-thread-tutorial/
+        https://solarianprogrammer.com/2012/02/27/cpp-11-thread-tutorial-part-2/
+
+        http://stackoverflow.com/questions/20585896/how-to-use-c11-thread-with-instance-method
+
+        http://stackoverflow.com/questions/10673585/start-thread-with-member-function
 
  */
 
 //Define o tam que o vetor tem
-#define tamanho 100000
+#define tamanho 100
 
 //Algoritmo de ordenacao InsertionSort
 void InsertionSort(int* v, int tam){
@@ -183,8 +193,11 @@ void MergeSort(int* v, int inicio, int fim){
 
 
 //Helper functions ##################################################################################
-
-
+/*
+void doRun(AlgoritmoParaTeste * algo)
+{
+    algo->avaliaTempoDeExecucaoTotal();
+}*/
 
 //##############################################################################################################
 
@@ -198,10 +211,10 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "= = = = = APS Análise de Algoritmos de ordenação = = = = = \n";
 
-    /* Quantidade de testes continuos */
-    int totalDeExec = 100;
+    /* Executa testes continuos */
+    int totalDeExec = 10;
 
-    do{
+    while(totalDeExec>=0){
 
         printf("(Re)Iniciando Processo: (%d)\n", totalDeExec);
 
@@ -225,14 +238,25 @@ int main(int argc, const char * argv[]) {
             vus[i] = rand();
         }
 
-        BubbleSort bubble;
+        //BubbleSort bubble;
         QuickSort quick;
         //Ordenacao com BubbleSort
         printf("\t=============================================\n");
         printf("\tOrdenacao com BubbleSort: (%d)\n", totalDeExec);
         printf("\t=============================================\n");
 
-        bubble.avaliaTempoDeExecucaoTotal(vbs, tamanho);
+        //bubble.avaliaTempoDeExecucaoTotal(vbs, tamanho);
+
+        BubbleSort *bubble = new BubbleSort();
+        //std::thread tw1 = w->member1Thread();
+        std::thread bs_t = bubble->avaliaTempo(vbs, tamanho);
+        //tw1.join();
+        bs_t.join();
+
+
+        //std::thread t_bubble;
+        //std::thread t1(&bubble::avaliaTempoDeExecucaoTotal, vbs, tamanho);
+
         //bubble.avaliaClockTicksTotal(vbs, tamanho);
         //bubble.avaliaTempoDeExecucaoParte1(vbs, tamanho);
         //bubble.avaliaClockTicksParte1(vbs, tamanho);
@@ -243,7 +267,7 @@ int main(int argc, const char * argv[]) {
         quick.avaliaTempoDeExecucaoTotal(vqs, tamanho);
 
         totalDeExec--;
-    }while(totalDeExec>=0);
+    }
 
 
 

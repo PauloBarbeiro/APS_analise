@@ -5,6 +5,39 @@
 
 #define BILLION 1000000000L
 
+void AlgoritmoParaTeste::gravaRegistroDeTempo(std::string nome, int tam){
+
+    std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
+    std::strftime(fim, 20, "%Y-%m-%d %H:%M:%S", localtime(&endTime));
+
+    std::string textFileName = nome+".txt";
+
+    std::ofstream textFile;
+
+    textFile.open(textFileName, std::ios::app);
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|duracao(nanosec):" << (long long unsigned int) diff << std::endl;
+    textFile.close();
+
+}
+
+void AlgoritmoParaTeste::gravaRegistroDeTicks(std::string nome, int tam){
+
+    std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
+    std::strftime(fim, 20, "%Y-%m-%d %H:%M:%S", localtime(&endTime));
+
+    std::string textFileName = nome+".txt";
+
+    std::ofstream textFile;
+
+    textFile.open(textFileName, std::ios::app);
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|clockticks:" << t  << std::endl;
+    textFile.close();
+
+}
+
+/* ###########################################################################################################33 */
+
+
 void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
     int tamanho = tam;
     //inicio da avaliação
@@ -269,7 +302,7 @@ void BubbleSort::avaliaClockTicksParte2(int *v, int tam){
 
 }
 
-
+/*
 
 void BubbleSort::gravaRegistroDeTempo(std::string nome, int tam){
 
@@ -281,11 +314,13 @@ void BubbleSort::gravaRegistroDeTempo(std::string nome, int tam){
     std::ofstream textFile;
 
     textFile.open(textFileName, std::ios::app);
-    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|duracao(nanosec):" << (long long unsigned int) diff /*<< "|duracao(seg):" << (float)(end_t.tv_nsec - start_t.tv_nsec)/BILLION*/ << std::endl;
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|duracao(nanosec):" << (long long unsigned int) diff  << std::endl;
     textFile.close();
 
 }
+*/
 
+/*
 void BubbleSort::gravaRegistroDeTicks(std::string nome, int tam){
 
     strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
@@ -300,6 +335,7 @@ void BubbleSort::gravaRegistroDeTicks(std::string nome, int tam){
     textFile.close();
 
 }
+*/
 
 
 
@@ -568,7 +604,7 @@ void QuickSort::avaliaClockTicksParte2(int *v, int tam){
 
 }
 
-
+/*
 
 void QuickSort::gravaRegistroDeTempo(std::string nome, int tam){
 
@@ -599,3 +635,4 @@ void QuickSort::gravaRegistroDeTicks(std::string nome, int tam){
     textFile.close();
 
 }
+*/
