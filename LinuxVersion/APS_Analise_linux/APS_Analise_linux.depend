@@ -58,7 +58,7 @@
 	<mach/mach_time.h>
 	<unistd.h>
 
-1463164906 source:/home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/main.cpp
+1463514942 source:/home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/main.cpp
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
@@ -66,6 +66,7 @@
 	<ctime>
 	<time.h>
 	<math.h>
+	<vector>
 	<assert.h>
 	<CoreServices/CoreServices.h>
 	<mach/clock.h>
@@ -73,12 +74,14 @@
 	<mach/mach_time.h>
 	<unistd.h>
 	<fstream>
+	<thread>
 	"algoritmos_ordenacao.h"
 
-1463162655 /home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/include/algoritmos_ordenacao.h
+1463509155 /home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/include/algoritmos_ordenacao.h
 	<stdio.h>
 	<iostream>
 	<time.h>
+	<thread>
 	<assert.h>
 	<CoreServices/CoreServices.h>
 	<mach/clock.h>
@@ -86,7 +89,7 @@
 	<mach/mach_time.h>
 	<unistd.h>
 
-1463164780 source:/home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/src/algoritmos_ordenacao.cpp
+1463508777 source:/home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/src/algoritmos_ordenacao.cpp
 	"algoritmos_ordenacao.h"
 	<iostream>
 	<fstream>

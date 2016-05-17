@@ -34,9 +34,11 @@ public:
 
     //variáveis para clock ticks
     clock_t t;
-    void inicia(std::string nome){
-        algoritmo = nome;
-    }
+
+    //void inicia(std::string nome){
+    //    algoritmo = nome;
+    //}
+
     //virtual void avaliaTempoDeExecucaoTotal() = 0;
     void gravaRegistroDeTempo(std::string nome, int tam);
     void gravaRegistroDeTicks(std::string nome, int tam);
@@ -92,6 +94,10 @@ public:
 class QuickSort : public AlgoritmoParaTeste{
 
 public:
+    QuickSort(){
+        algoritmo = "QuickSort";
+    }
+
     void executaQuick(int* v, int tam);
 
     void avaliaTempoDeExecucaoTotal(int* v, int tam);
@@ -102,5 +108,9 @@ public:
 
     void avaliaTempoDeExecucaoParte2(int* v, int tam);
     void avaliaClockTicksParte2(int* v, int tam);
+
+    std::thread avaliaTempo(int* v, int tam) {
+          return std::thread([=] { avaliaTempoDeExecucaoTotal(v, tam); });
+      }
 
 };
