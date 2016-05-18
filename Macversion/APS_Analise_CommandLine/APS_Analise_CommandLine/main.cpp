@@ -202,60 +202,77 @@ int main(int argc, const char * argv[]) {
     
     
     /* vetores de categoria de testes */
-    // testes de tempo
-    //static const int num_threads_tempo = (totalDeExec+1)*3;/* vezes três para os tres algoritmos*/
-    // testes de ticks
-    //static const int num_threads_ticks = totalDeExec*3;
+    
     
     /* vetores */
-    //std::thread bubbles_tempo_threads[totalDeExec+1];
-    //std::thread quicks_tempo_threads[totalDeExec+1];
+    std::vector<std::thread> bubble_threads;
+    std::vector<std::thread> quick_threads;
+    std::vector<std::thread> merge_threads;
+    
+    std::vector<std::thread> bubble_threads_ticks;
+    std::vector<std::thread> quick_threads_ticks;
+    std::vector<std::thread> merge_threads_ticks;
+    
     if( testesDeTempo || todosOsTestes ){
-        std::vector<std::thread> bubble_threads;
         bubble_threads.reserve(totalDeExec);
-        std::vector<std::thread> quick_threads;
         quick_threads.reserve(totalDeExec);
-        std::vector<std::thread> merge_threads;
         merge_threads.reserve(totalDeExec);
     }
     
+    if( testesDeTicks || todosOsTestes ){
+        bubble_threads_ticks.reserve(totalDeExec);
+        quick_threads_ticks.reserve(totalDeExec);
+        merge_threads_ticks.reserve(totalDeExec);
+    }
+    
     // vetores de instancias
-    std::vector <BubbleSort> bubbles;//[totalDeExec];
-    bubbles.reserve(totalDeExec);
-    //int bubble_size = sizeof(BubbleSort);
-    //BubbleSort *bubbles;
-    //bubbles = (BubbleSort*) malloc(totalDeExec*bubble_size);
+    std::vector <BubbleSort> bubbles;
+    std::vector <QuickSort> quicks;
+    std::vector <MergeSort> merges;
     
-    std::vector <QuickSort> quicks;//[totalDeExec];
-    quicks.reserve(totalDeExec);
-    //int quick_size = sizeof(QuickSort);
-    //QuickSort *quicks;
-    //quicks = (QuickSort*) malloc(totalDeExec*quick_size);
+    std::vector <BubbleSort> bubbles_ticks;
+    std::vector <QuickSort> quicks_ticks;
+    std::vector <MergeSort> merges_ticks;
     
+    if( testesDeTempo || todosOsTestes ){
+        bubbles.reserve(totalDeExec);
+        quicks.reserve(totalDeExec);
+        merges.reserve(totalDeExec);
+    }
     
-    std::vector <MergeSort> merges;//[totalDeExec];
-    merges.reserve(totalDeExec);
+    if( testesDeTicks || todosOsTestes ){
+        bubbles_ticks.reserve(totalDeExec);
+        quicks_ticks.reserve(totalDeExec);
+        merges_ticks.reserve(totalDeExec);
+    }
     
     /* Dados para analise */
-    printf("Carregando dados nos vetores: (%d)\n", tamanho);
+    std::cout << "Carregando dados nos vetores: "<< tamanho << std::endl;
     int i,j =0;
     
-    int vbs[totalDeExec][tamanho];
-    int vqs[totalDeExec][tamanho];
-    int vms[totalDeExec][tamanho];
+    int vbs_tempo[totalDeExec][tamanho];
+    int vqs_tempo[totalDeExec][tamanho];
+    int vms_tempo[totalDeExec][tamanho];
+    
+    int vbs_ticks[totalDeExec][tamanho];
+    int vqs_ticks[totalDeExec][tamanho];
+    int vms_ticks[totalDeExec][tamanho];
     
     for (i=0 ; i < totalDeExec; i++){
         for(j = 0; j < tamanho; j++){
-            //printf("\t%d\n",j);
-            vbs[i][j] = rand();
-            vqs[i][j] = rand();
-            //vis[i] = rand();
-            //vss[i] = rand();
-            //vhs[i] = rand();
-            vms[i][j] = rand();
-            //vus[i] = rand();
             
-            //printf("%d  ",vbs[i][j]);
+            if( testesDeTempo || todosOsTestes ){
+                vbs_tempo[i][j] = rand();
+                vqs_tempo[i][j] = rand();
+                vms_tempo[i][j] = rand();
+            }
+            
+            if( testesDeTicks || todosOsTestes ){
+                vbs_ticks[i][j] = rand();
+                vqs_ticks[i][j] = rand();
+                vms_ticks[i][j] = rand();
+            }
+
         }
     }
     
@@ -263,53 +280,51 @@ int main(int argc, const char * argv[]) {
     
     
     /* EXECUÇÔES */
-    printf("\n(Re)Iniciando Processo: (%d)\n", totalDeExec);
+    std::cout << "\n(Re)Iniciando Processo: " << totalDeExec << std::endl;
     
-    //intancias
-    for (i=0 ; i < totalDeExec; i++){
-        BubbleSort *b = new BubbleSort();
-        bubbles.push_back(*b);
-        QuickSort *q = new QuickSort();
-        quicks.push_back(*q);
-        MergeSort *m = new MergeSort();
-        merges.push_back(*m);
-    }
+    
     
     //threads
-    for (i=0 ; i < totalDeExec; i++){
-        //bubbles_tempo_threads[i] = bubbles[i].avaliaTempo(vbs[i], tamanho);
+    if( testesDeTempo || todosOsTestes ){
+        //intancias
+        for (i=0 ; i < totalDeExec; i++){
+            BubbleSort *b = new BubbleSort();
+            bubbles.push_back(*b);
+            QuickSort *q = new QuickSort();
+            quicks.push_back(*q);
+            MergeSort *m = new MergeSort();
+            merges.push_back(*m);
+        }
         
-        printf("Iniciando as bubble threads: \n");
-        printf("\n %p \n", vbs[i]);
+        for (i=0 ; i < totalDeExec; i++){
         
-        bubble_threads.push_back( bubbles[i].avaliaTempo(vbs[i], tamanho) );
-    }
+            std::cout << "Iniciando as bubble threads:" << std::endl;
+            std::cout <<  vbs_tempo[i] <<std::endl;
+        
+            bubble_threads.push_back( bubbles[i].avaliaTempo(vbs_tempo[i], tamanho) );
+        }
     
-    for (i=0 ; i < totalDeExec; i++){
-        //quicks_tempo_threads[i] = quicks[i].avaliaTempo(vbs[i], tamanho);
+        for (i=0 ; i < totalDeExec; i++){
         
-        printf("Iniciando as quick threads: \n");
-        printf("\n %p \n", vqs[i]);
+            std::cout << "Iniciando as quick threads:" << std::endl;
+            std::cout << vqs_tempo[i] << std::endl;
         
-        quick_threads.push_back( quicks[i].avaliaTempo(vqs[i], tamanho) );
-    }
-    for (i=0 ; i < totalDeExec; i++){
-        //quicks_tempo_threads[i] = quicks[i].avaliaTempo(vbs[i], tamanho);
+            quick_threads.push_back( quicks[i].avaliaTempo(vqs_tempo[i], tamanho) );
+        }
+        for (i=0 ; i < totalDeExec; i++){
         
-        printf("Iniciando as merge threads: \n");
-        printf("\n %p \n", vms[i]);
+            std::cout << "Iniciando as merge threads:" << std::endl;
+            std::cout << vms_tempo[i] << std::endl;
         
-        merge_threads.push_back( merges[i].avaliaTempo(vms[i], 0, tamanho-1, tamanho) );
-    }
+            merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
+        }
     
-    for (i=0 ; i < totalDeExec; i++){
-        //bubbles_tempo_threads[i].join();
-        //quicks_tempo_threads[i].join();
-        bubble_threads[i].join();
-        quick_threads[i].join();
-        merge_threads[i].join();
+        for (i=0 ; i < totalDeExec; i++){
+            bubble_threads[i].join();
+            quick_threads[i].join();
+            merge_threads[i].join();
+        }
     }
-    
     
     
     
