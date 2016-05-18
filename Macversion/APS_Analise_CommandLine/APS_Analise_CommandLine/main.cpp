@@ -50,7 +50,7 @@ using json = nlohmann::json;
  */
 
 //Define o tam que o vetor tem
-#define tamanho 100
+#define tamanho 90000
 
 
 
@@ -126,8 +126,120 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "= = = = = APS Análise de Algoritmos de ordenação = = = = = \n";
     
-    /* Quantidade de testes continuos */
+    
+    
+    
+    /* Configurações dos testes */
+    // Quantidade de bateria de testes por execução
+    int totalDeExec = 100;
+    // contador auxiliar
+    // int counter = 0;
+    
+    
+    /* vetores de categoria de testes */
+    // testes de tempo
+    //static const int num_threads_tempo = (totalDeExec+1)*3;/* vezes três para os tres algoritmos*/
+    // testes de ticks
+    //static const int num_threads_ticks = totalDeExec*3;
+    
+    /* vetores */
+    //std::thread bubbles_tempo_threads[totalDeExec+1];
+    //std::thread quicks_tempo_threads[totalDeExec+1];
+    std::vector<std::thread> bubble_threads;
+    bubble_threads.reserve(totalDeExec);
+    std::vector<std::thread> quick_threads;
+    quick_threads.reserve(totalDeExec);
+    
+    
+    // vetores de instancias
+    std::vector <BubbleSort> bubbles;//[totalDeExec];
+    bubbles.reserve(totalDeExec);
+    //int bubble_size = sizeof(BubbleSort);
+    //BubbleSort *bubbles;
+    //bubbles = (BubbleSort*) malloc(totalDeExec*bubble_size);
+    
+    std::vector <QuickSort> quicks;//[totalDeExec];
+    quicks.reserve(totalDeExec);
+    //int quick_size = sizeof(QuickSort);
+    //QuickSort *quicks;
+    //quicks = (QuickSort*) malloc(totalDeExec*quick_size);
+    
+    /* Dados para analise */
+    printf("Carregando dados nos vetores: (%d)\n", tamanho);
+    int i,j =0;
+    
+    int vbs[totalDeExec][tamanho];
+    int vqs[totalDeExec][tamanho];
+    
+    for (i=0 ; i < totalDeExec; i++){
+        for(j = 0; j < tamanho; j++){
+            //printf("\t%d\n",j);
+            vbs[i][j] = rand();
+            vqs[i][j] = rand();
+            //vis[i] = rand();
+            //vss[i] = rand();
+            //vhs[i] = rand();
+            //vms[i] = rand();
+            //vus[i] = rand();
+            
+            //printf("%d  ",vbs[i][j]);
+        }
+    }
+    
+    
+    
+    
+    /* EXECUÇÔES */
+    printf("\n(Re)Iniciando Processo: (%d)\n", totalDeExec);
+    
+    //intancias
+    for (i=0 ; i < totalDeExec; i++){
+        BubbleSort *b = new BubbleSort();
+        bubbles.push_back(*b);
+        QuickSort *q = new QuickSort();
+        quicks.push_back(*q);
+    }
+    
+    //threads
+    for (i=0 ; i < totalDeExec; i++){
+        //bubbles_tempo_threads[i] = bubbles[i].avaliaTempo(vbs[i], tamanho);
+        
+        printf("Iniciando as bubble threads: \n");
+        printf("\n %p \n", vbs[i]);
+        
+        bubble_threads.push_back( bubbles[i].avaliaTempo(vbs[i], tamanho) );
+    }
+    
+    for (i=0 ; i < totalDeExec; i++){
+        //quicks_tempo_threads[i] = quicks[i].avaliaTempo(vbs[i], tamanho);
+        
+        printf("Iniciando as quick threads: \n");
+        printf("\n %p \n", vqs[i]);
+        
+        quick_threads.push_back( quicks[i].avaliaTempo(vqs[i], tamanho) );
+    }
+    
+    for (i=0 ; i < totalDeExec; i++){
+        //bubbles_tempo_threads[i].join();
+        //quicks_tempo_threads[i].join();
+        bubble_threads[i].join();
+        quick_threads[i].join();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /* Quantidade de testes continuos
     int totalDeExec = 10;
+    
     
     while( totalDeExec >= 0 ){
         int i;
@@ -153,18 +265,7 @@ int main(int argc, const char * argv[]) {
     
         BubbleSort bubble;
         QuickSort quick;
-        InsertionSort insertion;
-        SelectionSort selection;
-        HeapSort heap;
-        MergeSort merge;
-    
         
-        bubble.inicia("BubbleSort");
-        quick.inicia("QuickSort");
-        insertion.inicia("InsertionSort");
-        selection.inicia("SelectionSort");
-        heap.inicia("HeapSort");
-        merge.inicia("MergeSort");
     
     
         
@@ -186,28 +287,10 @@ int main(int argc, const char * argv[]) {
         quick.avaliaTempoDeExecucaoTotal(vqs, tamanho);
         //quick.avaliaClockTicksTotal(vqs, tamanho);
     
-        printf("\t=============================================\n");
-        printf("\tOrdenacao com InsertionSort: %d \n", totalDeExec);
-        printf("\t=============================================\n");
-        insertion.avaliaTempoDeExecucaoTotal(vis, tamanho);
-    
-        printf("\t=============================================\n");
-        printf("\tOrdenacao com SelectionSort: %d \n", totalDeExec);
-        printf("\t=============================================\n");
-        selection.avaliaTempoDeExecucaoTotal(vss, tamanho);
-    
-        printf("\t=============================================\n");
-        printf("\tOrdenacao com HeapSort: %d \n", totalDeExec);
-        printf("\t=============================================\n");
-        heap.avaliaTempoDeExecucaoTotal(vhs, tamanho);
-    
-        printf("\t=============================================\n");
-        printf("\tOrdenacao com MergeSort: %d \n", totalDeExec);
-        printf("\t=============================================\n");
-        merge.avaliaTempoDeExecucaoTotal(vms, 0, tamanho-1, tamanho);
+        
     
         totalDeExec--;
-    }
+    } */
     
     
     return 0;

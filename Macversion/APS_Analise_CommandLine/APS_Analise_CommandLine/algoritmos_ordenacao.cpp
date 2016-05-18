@@ -14,6 +14,7 @@
 
 
 void AlgoritmoParaTeste::gravaRegistroDeTempo(std::string nome, int tam){
+    //std::cout << "AlgoritmoParaTeste::gravaRegistroDeTempo " << nome << " :: " << tam << std::endl;
     
     std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
     std::strftime(fim, 20, "%Y-%m-%d %H:%M:%S", localtime(&endTime));
@@ -48,8 +49,10 @@ void AlgoritmoParaTeste::gravaRegistroDeTicks(std::string nome, int tam){
 
 
 void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
+    //printf("BubbleSort::avaliaTempoDeExecucaoTotal %d \n",tam);
     
     //inicio da avaliação
+    int tamanho = tam;
     time( &startTime );
     start = mach_absolute_time();
     
@@ -76,7 +79,7 @@ void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
     end = mach_absolute_time();
     time( &endTime );
     elapsed = end - start;
-    gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tam);
+    gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho);
     
 }
 
@@ -314,6 +317,8 @@ void QuickSort::executaQuick(int* v, int tam){
 
 
 void QuickSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
+    
+    
     
     //inicio da avaliação
     time( &startTime );
