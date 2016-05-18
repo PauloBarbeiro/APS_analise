@@ -150,9 +150,10 @@ int main(int argc, const char * argv[]) {
     bool testesDeTicks = false;
     bool testesDeCiclos = false;
     bool todosOsTestes = false;
+    int qtdModos = 0;
     
     for(int a=1 ; a<argc ; ++a){
-        std::cout << "Argv[" << a << "] : " <<argv[a] << std::endl;
+        //std::cout << "Argv[" << a << "] : " <<argv[a] << std::endl;
         if( std::string(argv[a]) == "-h" || std::string(argv[a]) == "--help" ){
             show_usage( argv[a] );
             return 0;
@@ -179,72 +180,76 @@ int main(int argc, const char * argv[]) {
         }
         if( std::string(argv[a]) == "-tempo" ){
             testesDeTempo = true;
+            qtdModos += 1;
             std::cout << "\t Testes de tempo: OK" << std::endl;
         }
         if( std::string(argv[a]) == "-ticks" ){
             testesDeTicks = true;
             std::cout << "\t Testes de Clock Ticks: OK" << std::endl;
+            qtdModos += 1;
         }
         if( std::string(argv[a]) == "-ciclos" ){
             testesDeCiclos = true;
             std::cout << "\t Testes de Ciclos: OK" << std::endl;
+            qtdModos += 1;
         }
         if( std::string(argv[a]) == "-all" ){
             testesDeTempo = true;
             testesDeTicks = true;
             testesDeCiclos = true;
             todosOsTestes = true;
+            qtdModos = 3;
             std::cout << "\t Todos os testes: OK" << std::endl;
         }
         
     }
     
+    if( qtdModos == 0 ){
+        std::cerr << "Erro de execução: Parâmetros inválidos." << std::endl;
+        return 0;
+    }
     
+    std::cout << "# of execs: " << totalDeExec << std::endl;
+    std::cout << "# of modos: " << qtdModos << std::endl;
+    std::cout << "# of Threads: " << totalDeExec*qtdModos << std::endl;
+    std::cout << "# of Threads: " << (totalDeExec*qtdModos)*3 << std::endl;
     
     /* vetores de categoria de testes */
-    
     
     /* vetores */
     std::vector<std::thread> bubble_threads;
     std::vector<std::thread> quick_threads;
     std::vector<std::thread> merge_threads;
     
-    std::vector<std::thread> bubble_threads_ticks;
-    std::vector<std::thread> quick_threads_ticks;
-    std::vector<std::thread> merge_threads_ticks;
+    //std::vector<std::thread> bubble_threads_ticks;
+    //std::vector<std::thread> quick_threads_ticks;
+    //std::vector<std::thread> merge_threads_ticks;
     
-    if( testesDeTempo || todosOsTestes ){
-        bubble_threads.reserve(totalDeExec);
-        quick_threads.reserve(totalDeExec);
-        merge_threads.reserve(totalDeExec);
-    }
+    //if( testesDeTempo || todosOsTestes ){
+        bubble_threads.reserve( totalDeExec * qtdModos);
+        quick_threads.reserve( totalDeExec * qtdModos);
+        merge_threads.reserve( totalDeExec * qtdModos);
+    //}
     
-    if( testesDeTicks || todosOsTestes ){
-        bubble_threads_ticks.reserve(totalDeExec);
-        quick_threads_ticks.reserve(totalDeExec);
-        merge_threads_ticks.reserve(totalDeExec);
-    }
+    //if( testesDeTicks || todosOsTestes ){
+    //    bubble_threads_ticks.reserve(totalDeExec);
+    //    quick_threads_ticks.reserve(totalDeExec);
+    //    merge_threads_ticks.reserve(totalDeExec);
+    //}
     
     // vetores de instancias
     std::vector <BubbleSort> bubbles;
     std::vector <QuickSort> quicks;
     std::vector <MergeSort> merges;
     
-    std::vector <BubbleSort> bubbles_ticks;
-    std::vector <QuickSort> quicks_ticks;
-    std::vector <MergeSort> merges_ticks;
     
-    if( testesDeTempo || todosOsTestes ){
+    //if( testesDeTempo || todosOsTestes ){
         bubbles.reserve(totalDeExec);
         quicks.reserve(totalDeExec);
         merges.reserve(totalDeExec);
-    }
+    //}
     
-    if( testesDeTicks || todosOsTestes ){
-        bubbles_ticks.reserve(totalDeExec);
-        quicks_ticks.reserve(totalDeExec);
-        merges_ticks.reserve(totalDeExec);
-    }
+    
     
     /* Dados para analise */
     std::cout << "Carregando dados nos vetores: "<< tamanho << std::endl;
@@ -257,6 +262,10 @@ int main(int argc, const char * argv[]) {
     int vbs_ticks[totalDeExec][tamanho];
     int vqs_ticks[totalDeExec][tamanho];
     int vms_ticks[totalDeExec][tamanho];
+    
+    int vbs_ciclos[totalDeExec][tamanho];
+    int vqs_ciclos[totalDeExec][tamanho];
+    int vms_ciclos[totalDeExec][tamanho];
     
     for (i=0 ; i < totalDeExec; i++){
         for(j = 0; j < tamanho; j++){
@@ -272,6 +281,12 @@ int main(int argc, const char * argv[]) {
                 vqs_ticks[i][j] = rand();
                 vms_ticks[i][j] = rand();
             }
+            
+            if( testesDeCiclos || todosOsTestes ){
+                vbs_ciclos[i][j] = rand();
+                vqs_ciclos[i][j] = rand();
+                vms_ciclos[i][j] = rand();
+            }
 
         }
     }
@@ -280,51 +295,92 @@ int main(int argc, const char * argv[]) {
     
     
     /* EXECUÇÔES */
-    std::cout << "\n(Re)Iniciando Processo: " << totalDeExec << std::endl;
+    std::cout << "\nIniciando Processos: " << totalDeExec << std::endl;
     
     
+    //intancias
+    for (i=0 ; i < totalDeExec; i++){
+        BubbleSort *b = new BubbleSort();
+        bubbles.push_back(*b);
+        QuickSort *q = new QuickSort();
+        quicks.push_back(*q);
+        MergeSort *m = new MergeSort();
+        merges.push_back(*m);
+    }
     
     //threads
-    if( testesDeTempo || todosOsTestes ){
-        //intancias
-        for (i=0 ; i < totalDeExec; i++){
-            BubbleSort *b = new BubbleSort();
-            bubbles.push_back(*b);
-            QuickSort *q = new QuickSort();
-            quicks.push_back(*q);
-            MergeSort *m = new MergeSort();
-            merges.push_back(*m);
-        }
+    
         
         for (i=0 ; i < totalDeExec; i++){
-        
-            std::cout << "Iniciando as bubble threads:" << std::endl;
-            std::cout <<  vbs_tempo[i] <<std::endl;
-        
-            bubble_threads.push_back( bubbles[i].avaliaTempo(vbs_tempo[i], tamanho) );
+            //std::cout << "Iniciando as bubble threads:" << std::endl;
+            //std::cout <<  vbs_tempo[i] <<std::endl;
+            
+            if( testesDeTempo || todosOsTestes ){
+                bubble_threads.push_back( bubbles[i].avaliaTempo(vbs_tempo[i], tamanho) );
+                quick_threads.push_back( quicks[i].avaliaTempo(vqs_tempo[i], tamanho) );
+                merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
+            }
+            if( testesDeTicks || todosOsTestes ){
+                bubble_threads.push_back( bubbles[i].avaliaTicks(vbs_ticks[i], tamanho) );
+                quick_threads.push_back( quicks[i].avaliaTicks(vqs_ticks[i], tamanho) );
+                merge_threads.push_back( merges[i].avaliaTicks(vms_ticks[i], 0, tamanho-1, tamanho) );
+            }
+            if( testesDeCiclos || todosOsTestes ){
+                bubble_threads.push_back( bubbles[i].avaliaCiclos(vbs_ciclos[i], tamanho) );
+                quick_threads.push_back( quicks[i].avaliaCiclos(vqs_ciclos[i], tamanho) );
+                merge_threads.push_back( merges[i].avaliaCiclos(vms_ciclos[i], 0, tamanho-1, tamanho) );
+            }
+            
         }
     
+    /*
         for (i=0 ; i < totalDeExec; i++){
-        
             std::cout << "Iniciando as quick threads:" << std::endl;
             std::cout << vqs_tempo[i] << std::endl;
-        
-            quick_threads.push_back( quicks[i].avaliaTempo(vqs_tempo[i], tamanho) );
+            
+            if( testesDeTempo || todosOsTestes ){
+                quick_threads.push_back( quicks[i].avaliaTempo(vqs_tempo[i], tamanho) );
+            }
+            if( testesDeTicks || todosOsTestes ){
+                quick_threads.push_back( quicks[i].avaliaTicks(vqs_ticks[i], tamanho) );
+            }
+            if( testesDeCiclos || todosOsTestes ){
+                quick_threads.push_back( quicks[i].avaliaCiclos(vqs_ciclos[i], tamanho) );
+            }
+            
         }
-        for (i=0 ; i < totalDeExec; i++){
         
+        //for (i=0 ; i < totalDeExec; i++){
+        //    std::cout << "Iniciando as merge threads:" << std::endl;
+        //    std::cout << vms_tempo[i] << std::endl;
+        //    merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
+        //}
+    
+        for (i=0 ; i < totalDeExec; i++){
             std::cout << "Iniciando as merge threads:" << std::endl;
             std::cout << vms_tempo[i] << std::endl;
         
-            merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
-        }
+            if( testesDeTempo || todosOsTestes ){
+                merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
+            }
+            if( testesDeTicks || todosOsTestes ){
+                merge_threads.push_back( merges[i].avaliaTicks(vms_ticks[i], 0, tamanho-1, tamanho) );
+            }
+            if( testesDeCiclos || todosOsTestes ){
+                merge_threads.push_back( merges[i].avaliaCiclos(vms_ciclos[i], 0, tamanho-1, tamanho) );
+            }
+        
+        } //*/
     
-        for (i=0 ; i < totalDeExec; i++){
+    
+        for (i=0 ; i < totalDeExec*qtdModos; i++){
             bubble_threads[i].join();
             quick_threads[i].join();
             merge_threads[i].join();
         }
-    }
+        
+    
+    std::cout << "\nEm execusão.  " << (totalDeExec*qtdModos)*3 << " tasks em execusão. Aguarde...\n" << std::endl;
     
     
     
