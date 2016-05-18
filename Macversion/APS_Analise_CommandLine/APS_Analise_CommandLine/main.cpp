@@ -37,24 +37,6 @@
 #include "algoritmos_ordenacao.hpp"
 
 
-
-/*
- Referencias:
-    http://www.cplusplus.com/reference/ctime/difftime/
-    http://www.cplusplus.com/reference/ctime/clock/
-    http://stackoverflow.com/questions/23378063/how-can-i-use-mach-absolute-time-without-overflowing
-    https://developer.apple.com/library/mac/qa/qa1398/_index.html
- 
- Json:
- https://github.com/nlohmann/json
- 
- 
- */
-
-
-
-
-
 //Helper functions ##################################################################################
 
 
@@ -153,7 +135,7 @@ int main(int argc, const char * argv[]) {
     int qtdModos = 0;
     
     for(int a=1 ; a<argc ; ++a){
-        //std::cout << "Argv[" << a << "] : " <<argv[a] << std::endl;
+        
         if( std::string(argv[a]) == "-h" || std::string(argv[a]) == "--help" ){
             show_usage( argv[a] );
             return 0;
@@ -221,21 +203,12 @@ int main(int argc, const char * argv[]) {
     std::vector<std::thread> quick_threads;
     std::vector<std::thread> merge_threads;
     
-    //std::vector<std::thread> bubble_threads_ticks;
-    //std::vector<std::thread> quick_threads_ticks;
-    //std::vector<std::thread> merge_threads_ticks;
     
-    //if( testesDeTempo || todosOsTestes ){
-        bubble_threads.reserve( totalDeExec * qtdModos);
-        quick_threads.reserve( totalDeExec * qtdModos);
-        merge_threads.reserve( totalDeExec * qtdModos);
-    //}
     
-    //if( testesDeTicks || todosOsTestes ){
-    //    bubble_threads_ticks.reserve(totalDeExec);
-    //    quick_threads_ticks.reserve(totalDeExec);
-    //    merge_threads_ticks.reserve(totalDeExec);
-    //}
+    bubble_threads.reserve( totalDeExec * qtdModos);
+    quick_threads.reserve( totalDeExec * qtdModos);
+    merge_threads.reserve( totalDeExec * qtdModos);
+    
     
     // vetores de instancias
     std::vector <BubbleSort> bubbles;
@@ -243,12 +216,9 @@ int main(int argc, const char * argv[]) {
     std::vector <MergeSort> merges;
     
     
-    //if( testesDeTempo || todosOsTestes ){
-        bubbles.reserve(totalDeExec);
-        quicks.reserve(totalDeExec);
-        merges.reserve(totalDeExec);
-    //}
-    
+    bubbles.reserve(totalDeExec);
+    quicks.reserve(totalDeExec);
+    merges.reserve(totalDeExec);
     
     
     /* Dados para analise */
@@ -294,7 +264,7 @@ int main(int argc, const char * argv[]) {
     
     
     
-    /* EXECUÇÔES */
+    /* EXECUÇÕES */
     std::cout << "\nIniciando Processos: " << totalDeExec << std::endl;
     
     
@@ -312,8 +282,6 @@ int main(int argc, const char * argv[]) {
     
         
         for (i=0 ; i < totalDeExec; i++){
-            //std::cout << "Iniciando as bubble threads:" << std::endl;
-            //std::cout <<  vbs_tempo[i] <<std::endl;
             
             if( testesDeTempo || todosOsTestes ){
                 bubble_threads.push_back( bubbles[i].avaliaTempo(vbs_tempo[i], tamanho) );
@@ -333,46 +301,6 @@ int main(int argc, const char * argv[]) {
             
         }
     
-    /*
-        for (i=0 ; i < totalDeExec; i++){
-            std::cout << "Iniciando as quick threads:" << std::endl;
-            std::cout << vqs_tempo[i] << std::endl;
-            
-            if( testesDeTempo || todosOsTestes ){
-                quick_threads.push_back( quicks[i].avaliaTempo(vqs_tempo[i], tamanho) );
-            }
-            if( testesDeTicks || todosOsTestes ){
-                quick_threads.push_back( quicks[i].avaliaTicks(vqs_ticks[i], tamanho) );
-            }
-            if( testesDeCiclos || todosOsTestes ){
-                quick_threads.push_back( quicks[i].avaliaCiclos(vqs_ciclos[i], tamanho) );
-            }
-            
-        }
-        
-        //for (i=0 ; i < totalDeExec; i++){
-        //    std::cout << "Iniciando as merge threads:" << std::endl;
-        //    std::cout << vms_tempo[i] << std::endl;
-        //    merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
-        //}
-    
-        for (i=0 ; i < totalDeExec; i++){
-            std::cout << "Iniciando as merge threads:" << std::endl;
-            std::cout << vms_tempo[i] << std::endl;
-        
-            if( testesDeTempo || todosOsTestes ){
-                merge_threads.push_back( merges[i].avaliaTempo(vms_tempo[i], 0, tamanho-1, tamanho) );
-            }
-            if( testesDeTicks || todosOsTestes ){
-                merge_threads.push_back( merges[i].avaliaTicks(vms_ticks[i], 0, tamanho-1, tamanho) );
-            }
-            if( testesDeCiclos || todosOsTestes ){
-                merge_threads.push_back( merges[i].avaliaCiclos(vms_ciclos[i], 0, tamanho-1, tamanho) );
-            }
-        
-        } //*/
-    
-    
         for (i=0 ; i < totalDeExec*qtdModos; i++){
             bubble_threads[i].join();
             quick_threads[i].join();
@@ -381,71 +309,6 @@ int main(int argc, const char * argv[]) {
         
     
     std::cout << "\nEm execusão.  " << (totalDeExec*qtdModos)*3 << " tasks em execusão. Aguarde...\n" << std::endl;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /* Quantidade de testes continuos
-    int totalDeExec = 10;
-    
-    
-    while( totalDeExec >= 0 ){
-        int i;
-        int vbs[tamanho];
-        int vqs[tamanho];
-        int vis[tamanho];
-        int vss[tamanho];
-        int vhs[tamanho];
-        int vms[tamanho];
-        int vus[tamanho];
-    
-        //Cria numeros aleatorios para os vetores
-        for(i = 0; i < tamanho; i++){
-            vbs[i] = rand();
-            vqs[i] = rand();
-            vis[i] = rand();
-            vss[i] = rand();
-            vhs[i] = rand();
-            vms[i] = rand();
-            vus[i] = rand();
-        }
-    
-    
-        BubbleSort bubble;
-        QuickSort quick;
-        
-    
-    
-        
-        printf("\t=============================================\n");
-        printf("\tOrdenacao com BubbleSort: %d \n", totalDeExec);
-        printf("\t=============================================\n");
-    
-        //std::thread t1 ( bubble.avaliaTempoDeExecucaoTotal);
-        
-        //bubble.avaliaTempoDeExecucaoTotal(vbs, tamanho)
-        //bubble.avaliaClockTicksTotal(vbs, tamanho);
-        //bubble.avaliaTempoDeExecucaoParte1(vbs, tamanho);
-        //bubble.avaliaClockTicksParte1(vbs, tamanho);
-    
-        printf("\t=============================================\n");
-        printf("\tOrdenacao com QuickSort: %d \n", totalDeExec);
-        printf("\t=============================================\n");
-        
-        quick.avaliaTempoDeExecucaoTotal(vqs, tamanho);
-        //quick.avaliaClockTicksTotal(vqs, tamanho);
-    
-        
-    
-        totalDeExec--;
-    } */
     
     
     return 0;
