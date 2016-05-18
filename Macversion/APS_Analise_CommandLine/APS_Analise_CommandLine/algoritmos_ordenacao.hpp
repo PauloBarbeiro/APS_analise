@@ -147,9 +147,18 @@ public:
 class MergeSort : public AlgoritmoParaTeste{
     
 public:
+    MergeSort(){
+        algoritmo = "MergeSort";
+    }
     void executaMergeSort(int* v, int inicio, int fim);
     
     void avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam);
     void avaliaClockTicksTotal(int* v, int inicio, int fim, int tam);
     
+    std::thread avaliaTempo(int* v, int inicio, int fim, int tam) {
+        //printf("\t=============================================\n");
+        //printf("\tOrdenacao com MergeSort: %p\n", this);
+        //printf("\t=============================================\n");
+        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, inicio, fim,  tam); });
+    }
 };

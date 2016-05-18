@@ -24,7 +24,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3A4B80991CE3B67B00AF972C /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 		3A9D73CF1CE2755F005AE66D /* APS_Analise_CommandLine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = APS_Analise_CommandLine; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9D73D21CE27560005AE66D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3A9D73D91CE27701005AE66D /* algoritmos_ordenacao.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = algoritmos_ordenacao.cpp; sourceTree = "<group>"; };
@@ -61,7 +60,6 @@
 		3A9D73D11CE2755F005AE66D /* APS_Analise_CommandLine */ = {
 			isa = PBXGroup;
 			children = (
-				3A4B80991CE3B67B00AF972C /* json.hpp */,
 				3A9D73D21CE27560005AE66D /* main.cpp */,
 				3A9D73D91CE27701005AE66D /* algoritmos_ordenacao.cpp */,
 				3A9D73DA1CE27701005AE66D /* algoritmos_ordenacao.hpp */,
