@@ -61,6 +61,7 @@ int main(int argc, const char * argv[]) {
 	
 	int objetivoTeste = 0;
 	int tamanho = 10;
+	//const int tamanho;
 	char mtarefas;
 	int totalExec = 1;
 	bool start_input = true;
@@ -210,11 +211,39 @@ int main(int argc, const char * argv[]) {
 
 													 // Dados para analise
 			int i = 0;
+			/*
+			const int tot_exec = totalExec;
+			const int tot_tam = tamanho;
 
+			int vbs[tot_exec][tot_tam];
+			int vqs[tot_exec][tot_tam];
+			int vms[tot_exec][tot_tam]; //*/
 
-			int vbs[totalExec][tamanho];
-			int vqs[totalExec][tamanho];
-			int vms[totalExec][tamanho];
+			/*/allocate the array
+			int** vbs = malloc(totalExec*sizeof(int *));//new int*[totalExec];
+			int** vqs = new int*[totalExec];
+			int** vms = new int*[totalExec];
+			for (int i = 0; i < totalExec; i++) {
+				vbs[i] = new int[tamanho];
+				vqs[i] = new int[tamanho];
+				vms[i] = new int[tamanho];
+			}*/
+
+			std::vector<int[]> vbs;
+			std::vector<int[]> vqs;
+			std::vector<int[]> vms;
+
+			vbs.reserve(totalExec);
+			vqs.reserve(totalExec);
+			vms.reserve(totalExec);
+
+			for (i = 0; i < totalExec; i++) {
+				for (int j = 0; j < tamanho; j++) {
+					vbs[i][j] = rand();
+					vqs[i][j] = rand();
+					vms[i][j] = rand();
+				}
+			}
 
 			for (i = 0; i < totalExec; i++) {
 
@@ -367,10 +396,16 @@ int main(int argc, const char * argv[]) {
 				}
 			}
 
+			
+
 		}
 		else { // --------------------------------------- SINGLETASK
 
-			int vetor_de_testes[tamanho];
+			std::vector<int[]> vetor_de_testes(1);
+			vetor_de_testes.reserve(1);
+
+			//const int tama = tamanho;
+			//int vetor_de_testes[tama];
 
 			//criaVetorRandomico(tamanho, vbs);
 
@@ -403,69 +438,69 @@ int main(int argc, const char * argv[]) {
 				case 1:
 					std::cout << "Iniciando testes BubbleSort ..." << std::endl;
 					if (objetivoTeste == 1) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						bubbleS->avaliaTempoDeExecucaoTotal(vetor_de_testes, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						bubbleS->avaliaTempoDeExecucaoTotal(vetor_de_testes[0], tamanho, true);
 					}
 					//else if (objetivoTeste == 2) {
 					//	criaVetorRandomico(tamanho, vetor_de_testes);
 					//	bubbleS->avaliaTempoCPU(vetor_de_testes, tamanho, true);
 					//}
 					else if (objetivoTeste == 2) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						bubbleS->avaliaClockTicksTotal(vetor_de_testes, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						bubbleS->avaliaClockTicksTotal(vetor_de_testes[0], tamanho, true);
 					}
 					else if (objetivoTeste == 3) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						bubbleS->avaliaCiclosTotal(vetor_de_testes, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						bubbleS->avaliaCiclosTotal(vetor_de_testes[0], tamanho, true);
 					}
 					break;
 				case 2:
 					std::cout << "Iniciando testes QuickSort ..." << std::endl;
 					if (objetivoTeste == 1) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						quickS->avaliaTempoDeExecucaoTotal(vetor_de_testes, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						quickS->avaliaTempoDeExecucaoTotal(vetor_de_testes[0], tamanho, true);
 					}
 					//else if (objetivoTeste == 2) {
 					//	criaVetorRandomico(tamanho, vetor_de_testes);
 					//	quickS->avaliaTempoCPU(vetor_de_testes, tamanho, true);
 					//}
 					else if (objetivoTeste == 2) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						quickS->avaliaClockTicksTotal(vetor_de_testes, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						quickS->avaliaClockTicksTotal(vetor_de_testes[0], tamanho, true);
 					}
 					else if (objetivoTeste == 3) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						quickS->avaliaCiclosTotal(vetor_de_testes, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						quickS->avaliaCiclosTotal(vetor_de_testes[0], tamanho, true);
 					}
 					break;
 				case 3:
 					std::cout << "Iniciando testes MergeSort ..." << std::endl;
 					if (objetivoTeste == 1) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						mergeS->avaliaTempoDeExecucaoTotal(vetor_de_testes, 0, tamanho - 1, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						mergeS->avaliaTempoDeExecucaoTotal(vetor_de_testes[0], 0, tamanho - 1, tamanho, true);
 					}
 					//else if (objetivoTeste == 2) {
 					//	criaVetorRandomico(tamanho, vetor_de_testes);
 					//	mergeS->avaliaTempoCPU(vetor_de_testes, 0, tamanho - 1, tamanho, true);
 					//}
 					else if (objetivoTeste == 2) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						mergeS->avaliaClockTicksTotal(vetor_de_testes, 0, tamanho - 1, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						mergeS->avaliaClockTicksTotal(vetor_de_testes[0], 0, tamanho - 1, tamanho, true);
 					}
 					else if (objetivoTeste == 3) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						mergeS->avaliaCiclosTotal(vetor_de_testes, 0, tamanho - 1, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						mergeS->avaliaCiclosTotal(vetor_de_testes[0], 0, tamanho - 1, tamanho, true);
 					}
 					break;
 				case 4:
 					std::cout << "Iniciando testes em todos os algoritmos ..." << std::endl;
 					if (objetivoTeste == 1) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						bubbleS->avaliaTempoDeExecucaoTotal(vetor_de_testes, tamanho, true);
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						quickS->avaliaTempoDeExecucaoTotal(vetor_de_testes, tamanho, true);
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						mergeS->avaliaTempoDeExecucaoTotal(vetor_de_testes, 0, tamanho - 1, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						bubbleS->avaliaTempoDeExecucaoTotal(vetor_de_testes[0], tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						quickS->avaliaTempoDeExecucaoTotal(vetor_de_testes[0], tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						mergeS->avaliaTempoDeExecucaoTotal(vetor_de_testes[0], 0, tamanho - 1, tamanho, true);
 					}
 					//else if (objetivoTeste == 2) {
 					//	criaVetorRandomico(tamanho, vetor_de_testes);
@@ -476,24 +511,23 @@ int main(int argc, const char * argv[]) {
 					//	mergeS->avaliaTempoCPU(vetor_de_testes, 0, tamanho - 1, tamanho, true);
 					//}
 					else if (objetivoTeste == 2) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						bubbleS->avaliaClockTicksTotal(vetor_de_testes, tamanho, true);
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						quickS->avaliaClockTicksTotal(vetor_de_testes, tamanho, true);
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						mergeS->avaliaClockTicksTotal(vetor_de_testes, 0, tamanho - 1, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						bubbleS->avaliaClockTicksTotal(vetor_de_testes[0], tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						quickS->avaliaClockTicksTotal(vetor_de_testes[0], tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						mergeS->avaliaClockTicksTotal(vetor_de_testes[0], 0, tamanho - 1, tamanho, true);
 					}
 					else if (objetivoTeste == 3) {
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						bubbleS->avaliaCiclosTotal(vetor_de_testes, tamanho, true);
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						quickS->avaliaCiclosTotal(vetor_de_testes, tamanho, true);
-						criaVetorRandomico(tamanho, vetor_de_testes);
-						mergeS->avaliaCiclosTotal(vetor_de_testes, 0, tamanho - 1, tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						bubbleS->avaliaCiclosTotal(vetor_de_testes[0], tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						quickS->avaliaCiclosTotal(vetor_de_testes[0], tamanho, true);
+						criaVetorRandomico(tamanho, vetor_de_testes[0]);
+						mergeS->avaliaCiclosTotal(vetor_de_testes[0], 0, tamanho - 1, tamanho, true);
 					}
 					break;
 				}
-
 
 				count_exec += 1;
 			}
@@ -502,7 +536,7 @@ int main(int argc, const char * argv[]) {
 
 		std::cout << "Confira os resultados gravados nos arquivos de log.\n" << std::endl;
 
-
+		
 
 		char start_test;
 		std::cout << "Reiniciar os Testes? Y/N" << std::endl;
@@ -515,129 +549,8 @@ int main(int argc, const char * argv[]) {
 		}
 	} while (start_input);
 
+
+
 	return 0;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*
-	int i;
-	int vbs[tamanho];
-	int vqs[tamanho];
-	int vis[tamanho];
-	int vss[tamanho];
-	int vhs[tamanho];
-	int vms[tamanho];
-	int vus[tamanho];
-	//clrscr();
-	//Cria numeros aleatorios para os vetores
-	for (i = 0; i < tamanho; i++) {
-		vbs[i] = rand();
-		vqs[i] = rand();
-		vis[i] = rand();
-		vss[i] = rand();
-		vhs[i] = rand();
-		vms[i] = rand();
-		vus[i] = rand();
-	}
-	
-	//Ordenacao com BubbleSort
-	printf("=============================================\n");
-	printf("Ordenacao com BubbleSort: \n");
-	printf("=============================================\n");
-	printf("Vetor original: \n");
-	printf("---------------------------------------------\n");
-	for(i = 0; i < tamanho; i++){
-	printf("%d ", vbs[i]);
-	}
-	printf("\n---------------------------------------------\n");
-	printf("Passos da ordenacao: \n");
-	printf("---------------------------------------------\n");
-
-	/*
-	//variáveis para contagem de tempo por segundos
-	time_t startTime, endTime;
-	double seconds;
-
-	//variáveis para contagem de clocks
-	clock_t t;
-
-	//
-	// http://stackoverflow.com/questions/14337278/precise-time-measurement
-	//
-	LARGE_INTEGER	frequency;        // ticks per second
-	LARGE_INTEGER t1, t2;           // ticks
-	double elapsedTime;
-
-	// get ticks per second
-	QueryPerformanceFrequency(&frequency);
-
-	
-
-
-	time(&startTime);
-	t = clock();
-
-	// start timer
-	QueryPerformanceCounter(&t1);
-
-
-	BubbleSort(vbs, tamanho);
-	
-	// stop timer
-	QueryPerformanceCounter(&t2);
-
-	time(&endTime);
-	t = clock() - t;
-	seconds = difftime(endTime, startTime);
-
-	// compute and print the elapsed time in millisec
-	elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
-
-	printf("\n\nBubbleSort duração: %f segundos (Usando ctime)\n", seconds);
-	printf("BubbleSort clock ticks: %lu (%f segundos  (Usando clock: tempo é IMPRECISO)\n", t, ((float)t) / CLOCKS_PER_SEC);
-
-	std::cout << "BubbleSort Windows time cout: " << elapsedTime << " :: t1: " << t1.QuadPart << " :: t2: " << t2.QuadPart << " :: freq: " << frequency.QuadPart << std::endl;
-
-
-	json array = { {"shit", 0} };
-
-	std::cout << std::setw(4) << array << std::endl;
-	std::string format = ".json";
-	std::string fileName = "BubbleSort" + format;
-	std::cout << fileName << std::endl;
-
-	std::ofstream jsonFile;
-
-	jsonFile.open(fileName);
-	jsonFile << std::setw(4) << array << std::endl;
-	jsonFile.close();
-	
-
-
-
-	_getch();
-	//*/
-
-	return 0;
 }
