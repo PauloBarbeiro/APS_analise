@@ -13,7 +13,7 @@
 #include "algoritmos_ordenacao.hpp"
 
 
-void AlgoritmoParaTeste::gravaRegistroDeTempo(std::string nome, int tam){
+void AlgoritmoParaTeste::gravaRegistroDeTempo(std::string nome, int tam, bool thread){
     //std::cout << "AlgoritmoParaTeste::gravaRegistroDeTempo " << nome << " :: " << tam << std::endl;
     
     std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
@@ -24,12 +24,12 @@ void AlgoritmoParaTeste::gravaRegistroDeTempo(std::string nome, int tam){
     std::ofstream textFile;
     
     textFile.open(textFileName, std::ios::app);
-    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|duracao(nanosec):" << elapsed << std::endl;
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|mainThread:"<< thread  << "|inicio:" << inicio << "|fim:" << fim << "|duracao(nanosec):" << elapsed << std::endl;
     textFile.close();
     
 }
 
-void AlgoritmoParaTeste::gravaRegistroDeTicks(std::string nome, int tam){
+void AlgoritmoParaTeste::gravaRegistroDeTicks(std::string nome, int tam, bool thread){
     
     std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
     std::strftime(fim, 20, "%Y-%m-%d %H:%M:%S", localtime(&endTime));
@@ -39,12 +39,12 @@ void AlgoritmoParaTeste::gravaRegistroDeTicks(std::string nome, int tam){
     std::ofstream textFile;
     
     textFile.open(textFileName, std::ios::app);
-    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|clockticks:" << t  << std::endl;
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|mainThread:"<< thread  << "|inicio:" << inicio << "|fim:" << fim << "|clockticks:" << t  << std::endl;
     textFile.close();
     
 }
 
-void AlgoritmoParaTeste::gravaRegistroDeCiclos(std::string nome, int tam){
+void AlgoritmoParaTeste::gravaRegistroDeCiclos(std::string nome, int tam, bool thread){
     
     std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
     std::strftime(fim, 20, "%Y-%m-%d %H:%M:%S", localtime(&endTime));
@@ -54,7 +54,7 @@ void AlgoritmoParaTeste::gravaRegistroDeCiclos(std::string nome, int tam){
     std::ofstream textFile;
     
     textFile.open(textFileName, std::ios::app);
-    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|inicio:" << inicio << "|fim:" << fim << "|ciclos:" << ciclos << std::endl;
+    textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|mainThread:"<< thread  << "|inicio:" << inicio << "|fim:" << fim << "|ciclos:" << ciclos << std::endl;
     textFile.close();
     
 }
@@ -63,7 +63,7 @@ void AlgoritmoParaTeste::gravaRegistroDeCiclos(std::string nome, int tam){
 /* =================================================================================================== */
 
 
-void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
+void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
     
     //inicio da avaliação
     int tamanho = tam;
@@ -93,11 +93,11 @@ void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
     end = mach_absolute_time();
     time( &endTime );
     elapsed = end - start;
-    gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho);
+    gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho, thread);
     
 }
 
-void BubbleSort::avaliaClockTicksTotal(int *v, int tam){
+void BubbleSort::avaliaClockTicksTotal(int *v, int tam, bool thread){
     
     //inicio da avaliação
     int tamanho = tam;
@@ -126,11 +126,12 @@ void BubbleSort::avaliaClockTicksTotal(int *v, int tam){
     //fim da avaliação
     t = clock() - t;
     time( &endTime );
-    gravaRegistroDeTicks("BubbleSort_TicksExecTotal", tamanho);
+    gravaRegistroDeTicks("BubbleSort_TicksExecTotal", tamanho, thread);
     
 }
 
-void BubbleSort::avaliaCiclosTotal(int *v, int tam){
+
+void BubbleSort::avaliaCiclosTotal(int *v, int tam, bool thread){
     
     //inicio da avaliação
     int tamanho = tam;
@@ -156,7 +157,7 @@ void BubbleSort::avaliaCiclosTotal(int *v, int tam){
     }while(trocou);
     
     
-    gravaRegistroDeCiclos("BubbleSort_CiclosExecTotal", tamanho);
+    gravaRegistroDeCiclos("BubbleSort_CiclosExecTotal", tamanho, thread);
     
 }
 
@@ -173,7 +174,47 @@ void BubbleSort::avaliaCiclosTotal(int *v, int tam){
 
 //Algoritmo de ordenacao QuickSort
 void QuickSort::executaQuick(int* v, int tam){
-    //int j = tam, k;
+    int j = tam, k;
+    if (tam <= 1)
+        return;
+    else {
+        int x = v[0];
+        int a = 1;
+        int b = tam-1;
+        do{
+            while((a < tam) && (v[a] <= x))
+                a++;
+            while(v[b] > x)
+                b--;
+            if(a < b){ // faz troca
+                int temp = v[a];
+                v[a] = v[b];
+                v[b] = temp;
+                a++;
+                b--;
+            }
+            for(k = 0; k < j; k++)
+                printf("%d ", v[k]);
+            printf(" - ciclo! \n");
+            ciclos += 1;
+        }while(a <= b);
+        // troca pivo
+        v[0] = v[b];
+        v[b] = x;
+        // ordena sub-vetores restantes
+        executaQuick(v, b);
+        executaQuick(&v[a], tam-a);
+        for(k = 0; k < j; k++)
+            printf("%d ", v[k]);
+        printf(" - ciclo? \n");
+        ciclos += 1;
+    }
+}
+
+
+//Algoritmo de ordenacao QuickSort
+void QuickSort::executaQuickComCiclo(int* v, int tam){
+    int j = tam, k;
     if (tam <= 1)
         return;
     else {
@@ -194,23 +235,24 @@ void QuickSort::executaQuick(int* v, int tam){
             }
             //for(k = 0; k < j; k++)
             //    printf("%d ", v[k]);
-            //printf("\n");
+            //printf(" - ciclo! \n");
+            ciclos += 1;
         }while(a <= b);
         // troca pivo
         v[0] = v[b];
         v[b] = x;
         // ordena sub-vetores restantes
-        executaQuick(v, b);
-        executaQuick(&v[a], tam-a);
+        executaQuickComCiclo(v, b);
+        executaQuickComCiclo(&v[a], tam-a);
         //for(k = 0; k < j; k++)
         //    printf("%d ", v[k]);
-        //printf("\n");
+        //printf(" - ciclo? \n");
+        ciclos += 1;
     }
 }
 
 
-
-void QuickSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
+void QuickSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
     
     //inicio da avaliação
     time( &startTime );
@@ -222,11 +264,11 @@ void QuickSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
     end = mach_absolute_time();
     time( &endTime );
     elapsed = end - start;
-    gravaRegistroDeTempo("QuickSort_TempoExecTotal", tam);
+    gravaRegistroDeTempo("QuickSort_TempoExecTotal", tam, thread);
     
 }
 
-void QuickSort::avaliaClockTicksTotal(int *v, int tam){
+void QuickSort::avaliaClockTicksTotal(int *v, int tam, bool thread){
     
     //inicio da avaliação
     time( &startTime );
@@ -237,251 +279,52 @@ void QuickSort::avaliaClockTicksTotal(int *v, int tam){
     //fim da avaliação
     t = clock() - t;
     time( &endTime );
-    gravaRegistroDeTicks("QuickSort_TicksExecTotal", tam);
+    gravaRegistroDeTicks("QuickSort_TicksExecTotal", tam, thread);
     
 }
 
-void QuickSort::avaliaCiclosTotal(int *v, int tam){
+void QuickSort::avaliaCiclosTotal(int *v, int tam, bool thread){
     
     //inicio da avaliação
     time( &startTime );
-    t = clock();
+    //t = clock();
     
-    executaQuick(v, tam);
-    
-    //fim da avaliação
-    t = clock() - t;
-    time( &endTime );
-    gravaRegistroDeTicks("QuickSort_CiclosExecTotal", tam);
-    
-}
-
-
-/* ============================================================================================== */
-
-
-
-void InsertionSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
-    
-    //inicio da avaliação
-    time( &startTime );
-    start = mach_absolute_time();
-    
-    int i, j, chave;
-    for(j = 1; j < tam; j++){
-        chave = v[j];
-        i = j-1;
-        while((i >= 0) && (v[i] > chave)){
-            v[i+1] = v[i];
-            i--;
-        }
-        v[i+1] = chave;
-        //for(k = 0; k < j; k++)
-        //    printf("%d ", v[k]);
-        //printf("\n");
-    }
-    //for(k = 0; k < j; k++)
-    //    printf("%d ", v[k]);
-    //printf("\n");
+    executaQuickComCiclo(v, tam);
     
     //fim da avaliação
-    end = mach_absolute_time();
+    //t = clock() - t;
+    std::cout << " Ciclos:  " << ciclos << std::endl;
     time( &endTime );
-    elapsed = end - start;
-    gravaRegistroDeTempo("InsertionSort_TempoExecTotal", tam);
-    
-}
-
-void InsertionSort::avaliaClockTicksTotal(int *v, int tam){
-    
-    //inicio da avaliação
-    time( &startTime );
-    t = clock();
-    
-    int i, j, chave;
-    for(j = 1; j < tam; j++){
-        chave = v[j];
-        i = j-1;
-        while((i >= 0) && (v[i] > chave)){
-            v[i+1] = v[i];
-            i--;
-        }
-        v[i+1] = chave;
-        //for(k = 0; k < j; k++)
-        //    printf("%d ", v[k]);
-        //printf("\n");
-    }
-    //for(k = 0; k < j; k++)
-    //    printf("%d ", v[k]);
-    //printf("\n");
-    
-    //fim da avaliação
-    t = clock() - t;
-    time( &endTime );
-    gravaRegistroDeTicks("InsertionSort_TicksExecTotal", tam);
-    
+    gravaRegistroDeTicks("QuickSort_CiclosExecTotal", tam, thread);
+    ciclos = 0;
 }
 
 
-/* ============================================================================================================ */
-
-
-
-
-void SelectionSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
-    
-    //inicio da avaliação
-    time( &startTime );
-    start = mach_absolute_time();
-    
-    int i, j, min;
-    for(i = 0; i < (tam-1); i++){
-        min = i;
-        for(j = (i+1); j < tam; j++){
-            if(v[j] < v[min]){
-                min = j;
-            }
-        }
-        if(i != min){
-            int swap = v[i];
-            v[i] = v[min];
-            v[min] = swap;
-            //for(k = 0; k < tamanho; k++)
-            //    printf("%d ", v[k]);
-            //printf("\n");
-        }
-    }
-    
-    //fim da avaliação
-    end = mach_absolute_time();
-    time( &endTime );
-    elapsed = end - start;
-    gravaRegistroDeTempo("SelectionSort_TempoExecTotal", tam);
-    
-}
-
-void SelectionSort::avaliaClockTicksTotal(int *v, int tam){
-    
-    //inicio da avaliação
-    time( &startTime );
-    t = clock();
-    
-    int i, j, min;
-    for(i = 0; i < (tam-1); i++){
-        min = i;
-        for(j = (i+1); j < tam; j++){
-            if(v[j] < v[min]){
-                min = j;
-            }
-        }
-        if(i != min){
-            int swap = v[i];
-            v[i] = v[min];
-            v[min] = swap;
-            //for(k = 0; k < tamanho; k++)
-            //    printf("%d ", v[k]);
-            //printf("\n");
-        }
-    }
-    
-    //fim da avaliação
-    t = clock() - t;
-    time( &endTime );
-    gravaRegistroDeTicks("SelectionSort_TicksExecTotal", tam);
-    
-}
-
-
-/* ====================================================================================================================== */
-
-void HeapSort::PercorreArvore(int* v, int raiz, int folha){
-    int percorreu, maxfolhas, temp;
-    percorreu = 0;
-    while((raiz*2 <= folha) && (!percorreu)){
-        if(raiz*2 == folha)
-            maxfolhas = raiz * 2;
-        else if(v[raiz * 2] > v[raiz * 2 + 1])
-            maxfolhas = raiz * 2;
-        else
-            maxfolhas = raiz * 2 + 1;
-        if(v[raiz] < v[maxfolhas]){
-            temp = v[raiz];
-            v[raiz] = v[maxfolhas];
-            v[maxfolhas] = temp;
-            raiz = maxfolhas;
-        }
-        else
-            percorreu = 1;
-        //for(k = 0; k < tamanho; k++)
-        //    printf("%d ", v[k]);
-        //printf("\n");
-    }
-}
-
-void HeapSort::avaliaTempoDeExecucaoTotal(int *v, int tam){
-    
-    //inicio da avaliação
-    time( &startTime );
-    start = mach_absolute_time();
-    
-    int i, temp;
-    for(i = (tam / 2); i >= 0; i--)
-        PercorreArvore(v, i, tam - 1);
-    for(i = tam - 1; i >= 1; i--){
-        temp = v[0];
-        v[0] = v[i];
-        v[i] = temp;
-        PercorreArvore(v, 0, i-1);
-    }
-    
-    //fim da avaliação
-    end = mach_absolute_time();
-    time( &endTime );
-    elapsed = end - start;
-    gravaRegistroDeTempo("HeapSort_TempoExecTotal", tam);
-    
-}
-
-void HeapSort::avaliaClockTicksTotal(int *v, int tam){
-    
-    //inicio da avaliação
-    time( &startTime );
-    t = clock();
-    
-    int i, temp;
-    for(i = (tam / 2); i >= 0; i--)
-        PercorreArvore(v, i, tam - 1);
-    for(i = tam - 1; i >= 1; i--){
-        temp = v[0];
-        v[0] = v[i];
-        v[i] = temp;
-        PercorreArvore(v, 0, i-1);
-    }
-    
-    //fim da avaliação
-    t = clock() - t;
-    time( &endTime );
-    gravaRegistroDeTicks("HeapSort_TicksExecTotal", tam);
-    
-}
 
 
 /* =========================================================================================================== */
 
 void MergeSort::executaMergeSort(int* v, int inicio, int fim){
     int i, j, k, meio, *t;
+    //int z;
+    //int tamanho = 16;
+    
     if(inicio == fim)
         return;
+    //ciclos += 1;
     //ordenacao recursiva das duas metades
     meio = (inicio + fim)/2;
+    
     executaMergeSort(v, inicio, meio);
     executaMergeSort(v, meio+1, fim);
+    
     //intercalacao no vetor temporario t
     i = inicio;
     j = meio+1;
     k = 0;
     t =(int*)malloc(sizeof(int)*(fim - inicio+1));
     while(i < meio+1 || j < fim+1){
+        
         if(i == meio+1){ //i passou do final da primeira metade, pegar v[j]
             t[k] = v[j];
             j++; k++;
@@ -497,7 +340,7 @@ void MergeSort::executaMergeSort(int* v, int inicio, int fim){
         }
         //for(z = 0; z < tamanho; z++)
         //    printf("%d ", v[z]);
-        //printf("\n");
+        //printf(" - ciclo? \n");
     }
     //copia vetor intercalado para o vetor original
     for(i = inicio; i <= fim; i++)
@@ -505,10 +348,11 @@ void MergeSort::executaMergeSort(int* v, int inicio, int fim){
     //for(z = 0; z < tamanho; z++)
     //    printf("%d ", v[z]);
     //printf("\n");
+    
     free(t);
 }
 
-void MergeSort::avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam){
+void MergeSort::avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam, bool thread){
     
     //inicio da avaliação
     time( &startTime );
@@ -520,11 +364,11 @@ void MergeSort::avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam)
     end = mach_absolute_time();
     time( &endTime );
     elapsed = end - start;
-    gravaRegistroDeTempo("MergeSort_TempoExecTotal", tam);
+    gravaRegistroDeTempo("MergeSort_TempoExecTotal", tam, thread);
     
 }
 
-void MergeSort::avaliaClockTicksTotal(int* v, int inicio, int fim, int tam){
+void MergeSort::avaliaClockTicksTotal(int* v, int inicio, int fim, int tam, bool thread){
     
     //inicio da avaliação
     time( &startTime );
@@ -535,11 +379,11 @@ void MergeSort::avaliaClockTicksTotal(int* v, int inicio, int fim, int tam){
     //fim da avaliação
     t = clock() - t;
     time( &endTime );
-    gravaRegistroDeTicks("MergeSort_TicksExecTotal", tam);
+    gravaRegistroDeTicks("MergeSort_TicksExecTotal", tam, thread);
     
 }
 
-void MergeSort::avaliaCiclosTotal(int* v, int inicio, int fim, int tam){
+void MergeSort::avaliaCiclosTotal(int* v, int inicio, int fim, int tam, bool thread){
     
     //inicio da avaliação
     time( &startTime );
@@ -550,6 +394,7 @@ void MergeSort::avaliaCiclosTotal(int* v, int inicio, int fim, int tam){
     //fim da avaliação
     t = clock() - t;
     time( &endTime );
-    gravaRegistroDeTicks("MergeSort_CiclosExecTotal", tam);
-    
+    //gravaRegistroDeTicks("MergeSort_CiclosExecTotal", tam, thread);
+    std::cout << ciclos << std::endl;
+    ciclos = 0;
 }

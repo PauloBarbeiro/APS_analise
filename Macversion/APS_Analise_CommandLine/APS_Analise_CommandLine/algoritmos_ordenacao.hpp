@@ -43,13 +43,23 @@ public:
     
     // ciclos de execução
     int ciclos;
-    //void inicia(std::string nome){
-    //    algoritmo = nome;
-    //}
     
-    void gravaRegistroDeTempo(std::string nome, int tam);
-    void gravaRegistroDeTicks(std::string nome, int tam);
-    void gravaRegistroDeCiclos(std::string nome, int tam);
+    bool inMainThread;
+    
+    void avaliaTempoDeExecucaoTotal(int* v, int tam, bool thread);
+    void avaliaClockTicksTotal(int* v, int tam, bool thread);
+    void avaliaCiclosTotal(int* v, int tam, bool thread);
+    
+    //para mergesort
+    void avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam, bool thread);
+    void avaliaClockTicksTotal(int* v, int inicio, int fim, int tam, bool thread);
+    void avaliaCiclosTotal(int* v, int inicio, int fim, int tam, bool thread);
+    
+    //virtual void avaliaTempoDeExecucaoTotal() = 0;
+    void gravaRegistroDeTempo(std::string nome, int tam, bool thread);
+    void gravaRegistroDeTicks(std::string nome, int tam, bool thread);
+    void gravaRegistroDeCiclos(std::string nome, int tam, bool thread);
+    
 };
 
 
@@ -62,29 +72,21 @@ public:
         algoritmo = "BubbleSort";
     }
     
-    void avaliaTempoDeExecucaoTotal(int* v, int tam);
-    void avaliaClockTicksTotal(int* v, int tam);
-    void avaliaCiclosTotal(int* v, int tam);
+    void avaliaTempoDeExecucaoTotal(int* v, int tam, bool thread);
+    void avaliaClockTicksTotal(int* v, int tam, bool thread);
+    void avaliaCiclosTotal(int* v, int tam, bool thread);
+    
     
     std::thread avaliaTempo(int* v, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, tam); });
+        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, tam, false); });
     }
     
     std::thread avaliaTicks(int* v, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaClockTicksTotal(v, tam); });
+        return std::thread([=] { avaliaClockTicksTotal(v, tam, false); });
     }
     
     std::thread avaliaCiclos(int* v, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaCiclosTotal(v, tam); });
+        return std::thread([=] { avaliaCiclosTotal(v, tam, false); });
     }
     
 };
@@ -100,67 +102,24 @@ public:
     }
     
     void executaQuick(int* v, int tam);
+    void executaQuickComCiclo(int* v, int tam);
     
-    void avaliaTempoDeExecucaoTotal(int* v, int tam);
-    void avaliaClockTicksTotal(int* v, int tam);
-    void avaliaCiclosTotal(int* v, int tam);
+    void avaliaTempoDeExecucaoTotal(int* v, int tam, bool thread);
+    void avaliaClockTicksTotal(int* v, int tam, bool thread);
+    void avaliaCiclosTotal(int* v, int tam, bool thread);
     
     
     std::thread avaliaTempo(int* v, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com QuickSort: %p\n", this);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, tam); });
+        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, tam, false); });
     }
     
     std::thread avaliaTicks(int* v, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaClockTicksTotal(v, tam); });
+        return std::thread([=] { avaliaClockTicksTotal(v, tam, false); });
     }
     
     std::thread avaliaCiclos(int* v, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaCiclosTotal(v, tam); });
+        return std::thread([=] { avaliaCiclosTotal(v, tam, false); });
     }
-    
-};
-
-
-
-class InsertionSort : public AlgoritmoParaTeste{
-    
-public:
-    
-    void avaliaTempoDeExecucaoTotal(int* v, int tam);
-    void avaliaClockTicksTotal(int* v, int tam);
-    
-};
-
-
-
-class SelectionSort : public AlgoritmoParaTeste{
-    
-public:
-    
-    void avaliaTempoDeExecucaoTotal(int* v, int tam);
-    void avaliaClockTicksTotal(int* v, int tam);
-
-};
- 
-
-
-
-class HeapSort : public AlgoritmoParaTeste{
-    
-public:
-    void PercorreArvore(int* v, int raiz, int folha);
-    
-    void avaliaTempoDeExecucaoTotal(int* v, int tam);
-    void avaliaClockTicksTotal(int* v, int tam);
     
 };
 
@@ -175,29 +134,21 @@ public:
     }
     void executaMergeSort(int* v, int inicio, int fim);
     
-    void avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam);
-    void avaliaClockTicksTotal(int* v, int inicio, int fim, int tam);
-    void avaliaCiclosTotal(int* v, int inicio, int fim, int tam);
+    void avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam, bool thread);
+    void avaliaClockTicksTotal(int* v, int inicio, int fim, int tam, bool thread);
+    void avaliaCiclosTotal(int* v, int inicio, int fim, int tam, bool thread);
+    
     
     std::thread avaliaTempo(int* v, int inicio, int fim, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com MergeSort: %p\n", this);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, inicio, fim,  tam); });
+        return std::thread([=] { avaliaTempoDeExecucaoTotal(v, inicio, fim,  tam, false); });
     }
     
     std::thread avaliaTicks(int* v, int inicio, int fim, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaClockTicksTotal(v, inicio, fim, tam); });
+        return std::thread([=] { avaliaClockTicksTotal(v, inicio, fim, tam, false); });
     }
     
     std::thread avaliaCiclos(int* v, int inicio, int fim, int tam) {
-        //printf("\t=============================================\n");
-        //printf("\tOrdenacao com BubbleSort: %p tam:%d\n", this, tam);
-        //printf("\t=============================================\n");
-        return std::thread([=] { avaliaCiclosTotal(v, inicio, fim, tam); });
+        return std::thread([=] { avaliaCiclosTotal(v, inicio, fim, tam, false); });
     }
     
 };
