@@ -26,7 +26,7 @@
 
 #include "AlgoritmosOrdenacao.h"
 
-void criaVetorRandomico(int tamanho, int vetor[]) {
+void criaVetorRandomico(int tamanho, std::vector<int> vetor) {
 
 	int i = 0;
 	for (i = 0; i < tamanho; i++) {
@@ -229,9 +229,9 @@ int main(int argc, const char * argv[]) {
 				vms[i] = new int[tamanho];
 			}*/
 
-			std::vector<int[]> vbs;
-			std::vector<int[]> vqs;
-			std::vector<int[]> vms;
+			std::vector< std::vector<int> > vbs;
+			std::vector< std::vector<int> > vqs;
+			std::vector< std::vector<int> > vms;
 
 			vbs.reserve(totalExec);
 			vqs.reserve(totalExec);

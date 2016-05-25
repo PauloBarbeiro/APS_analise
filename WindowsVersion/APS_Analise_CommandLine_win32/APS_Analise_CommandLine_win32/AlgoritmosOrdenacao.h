@@ -60,9 +60,9 @@ public:
 		algoritmo = "BubbleSort";
 	}
 
-	void avaliaTempoDeExecucaoTotal(int* v, int tam, bool thread);
-	void avaliaClockTicksTotal(int* v, int tam, bool thread);
-	void avaliaCiclosTotal(int* v, int tam, bool thread);
+	void avaliaTempoDeExecucaoTotal(std::vector<int> v, int tam, bool thread);
+	void avaliaClockTicksTotal(std::vector<int>, int tam, bool thread);
+	void avaliaCiclosTotal(std::vector<int>, int tam, bool thread);
 	//void avaliaTempoCPU(int *v, int tam, bool thread);
 
 	std::thread avaliaTempo(int* v, int tam) {
