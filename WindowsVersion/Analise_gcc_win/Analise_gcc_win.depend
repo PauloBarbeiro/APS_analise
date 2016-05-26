@@ -27,3 +27,31 @@
 	<fstream>
 	<Windows.h>
 
+1464286906 source:c:\users\theli\documents\unip\aps 3° semestre\aps git2\aps_analise\windowsversion\analise_gcc_win\main.cpp
+	<iostream>
+	<stdio.h>
+	<sstream>
+	<stdlib.h>
+	<limits>
+	<sys/timeb.h>
+	<ctime>
+	<time.h>
+	<math.h>
+	<vector>
+	<thread>
+	<fstream>
+	"AlgoritmoOrdenacao.h"
+
+1464286906 c:\users\theli\documents\unip\aps 3° semestre\aps git2\aps_analise\windowsversion\analise_gcc_win\include\algoritmoordenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<thread>
+	<windows.h>
+
+1464286906 source:c:\users\theli\documents\unip\aps 3° semestre\aps git2\aps_analise\windowsversion\analise_gcc_win\src\algoritmoordenacao.cpp
+	"AlgoritmoOrdenacao.h"
+	<iostream>
+	<fstream>
+	<Windows.h>
+
