@@ -1,0 +1,117 @@
+# depslib dependency file v1.0
+1463158139 source:/home/paulo/Documentos/Pessoais/UNIP/APS/LinuxVersion/APS_Analise_linux/main.cpp
+	<iostream>
+	<stdio.h>
+	<curses.h>
+	<stdlib.h>
+	<sys/timeb.h>
+	<ctime>
+	<time.h>
+	<math.h>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+	<fstream>
+	"algoritmos_ordenacao.h"
+
+1463157863 /home/paulo/Documentos/Pessoais/UNIP/APS/LinuxVersion/APS_Analise_linux/include/algoritmos_ordenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+
+1463506705 source:/media/ilcarmo/KINGSTON/UNIP/APS/LinuxVersion/APS_Analise_linux/main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<sys/timeb.h>
+	<ctime>
+	<time.h>
+	<math.h>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+	<fstream>
+	<thread>
+	"algoritmos_ordenacao.h"
+
+1463507143 /media/ilcarmo/KINGSTON/UNIP/APS/LinuxVersion/APS_Analise_linux/include/algoritmos_ordenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<thread>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+
+1463514942 source:/home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<sys/timeb.h>
+	<ctime>
+	<time.h>
+	<math.h>
+	<vector>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+	<fstream>
+	<thread>
+	"algoritmos_ordenacao.h"
+
+1463509155 /home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/include/algoritmos_ordenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<thread>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+
+1463508777 source:/home/ilcarmo/APS/LinuxVersion/APS_Analise_linux/src/algoritmos_ordenacao.cpp
+	"algoritmos_ordenacao.h"
+	<iostream>
+	<fstream>
+
+1463164780 source:/media/paulo/KINGSTON/UNIP/APS/LinuxVersion/APS_Analise_linux/src/algoritmos_ordenacao.cpp
+	"algoritmos_ordenacao.h"
+	<iostream>
+	<fstream>
+
+1463410462 /media/paulo/KINGSTON/UNIP/APS/LinuxVersion/APS_Analise_linux/include/algoritmos_ordenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<assert.h>
+	<CoreServices/CoreServices.h>
+	<mach/clock.h>
+	<mach/mach.h>
+	<mach/mach_time.h>
+	<unistd.h>
+
+1463507111 source:/media/ilcarmo/KINGSTON/UNIP/APS/LinuxVersion/APS_Analise_linux/src/algoritmos_ordenacao.cpp
+	"algoritmos_ordenacao.h"
+	<iostream>
+	<fstream>
+

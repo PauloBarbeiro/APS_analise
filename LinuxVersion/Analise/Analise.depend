@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1463773074 source:/home/ilcarmo/APS/Analise/main.cpp
+	<iostream>
+	<stdio.h>
+	<sstream>
+	<stdlib.h>
+	<limits>
+	<sys/timeb.h>
+	<ctime>
+	<time.h>
+	<math.h>
+	<vector>
+	<thread>
+	<fstream>
+	"AlgoritmosOrdenacao.h"
+
+1463772624 /home/ilcarmo/APS/Analise/include/AlgoritmosOrdenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<thread>
+
+1463773111 source:/home/ilcarmo/APS/Analise/src/AlgoritmosOrdenacao.cpp
+	"AlgoritmosOrdenacao.h"
+	<iostream>
+	<fstream>
+
