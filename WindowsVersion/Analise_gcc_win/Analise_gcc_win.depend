@@ -21,3 +21,9 @@
 	<thread>
 	<windows.h>
 
+1464284368 source:c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\analise_gcc_win\src\algoritmoordenacao.cpp
+	"AlgoritmoOrdenacao.h"
+	<iostream>
+	<fstream>
+	<Windows.h>
+

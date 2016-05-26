@@ -21,7 +21,7 @@ void AlgoritmosOrdenacao::gravaRegistroDeTempo(std::string nome, int tam, bool t
 
     textFile.open(textFileName, std::ios::app);
     textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|mainThread:"<< thread << "|inicio:" << inicio <<
-    "|fim:" << fim << "|duracao(nanosec):" << (long long unsigned int) diff << std::endl;
+    "|fim:" << fim << "|duracao(nanosec):" << (long long unsigned int) elapsedTime << std::endl;
     textFile.close();
 
 }
@@ -98,11 +98,20 @@ void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
     time( &endTime );
 
     elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
+    std::cout << "t1.QuadPart: " << t1.QuadPart << std::endl;
+    std::cout << "t2.QuadPart: " << t2.QuadPart << std::endl;
+    std::cout << "frequency.QuadPart: " << frequency.QuadPart << std::endl;
+    std::cout << "t2 - t1: " << (t2.QuadPart - t1.QuadPart) << std::endl;
+    std::cout << "(t2 - t1) * 100.0 : " << (t2.QuadPart - t1.QuadPart)*100 << std::endl;
+    std::cout << "(t2 - t1) * 1000.0 : " << (t2.QuadPart - t1.QuadPart)*1000 << std::endl;
+    std::cout << "(t2 - t1) * 1000000.0 : " << (t2.QuadPart - t1.QuadPart)*1000000 << std::endl;
+    std::cout << "(t2 - t1) * 1000000000.0 : " << (t2.QuadPart - t1.QuadPart)*1000000000 << std::endl;
+    std::cout << "/n/n" << std::endl;
     //elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
     //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
 	//printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
 
-    gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho, thread);
+    //gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho, thread);
 
 }
 
