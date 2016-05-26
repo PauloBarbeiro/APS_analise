@@ -107,6 +107,9 @@ void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
     std::cout << "(t2 - t1) * 1000000.0 : " << (t2.QuadPart - t1.QuadPart)*1000000 << std::endl;
     std::cout << "(t2 - t1) * 1000000000.0 : " << (t2.QuadPart - t1.QuadPart)*1000000000 << std::endl;
     std::cout << "/n/n" << std::endl;
+
+    blablablablablablablabla
+
     //elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
     //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
 	//printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
