@@ -207,205 +207,13 @@ int main(int argc, const char * argv[]) {
 		}
 
 
-		if (!(mtarefas != 'Y' && mtarefas != 'y')) { // MULTITASK
+		// --------------------------------------- SINGLETASK
 
-													 // Dados para analise
-			int i = 0;
-			/*
-			const int tot_exec = totalExec;
-			const int tot_tam = tamanho;
+			//std::vector<int[]> vetor_de_testes(1);
+			//vetor_de_testes.reserve(1);
 
-			int vbs[tot_exec][tot_tam];
-			int vqs[tot_exec][tot_tam];
-			int vms[tot_exec][tot_tam]; //*/
-
-			/*/allocate the array
-			int** vbs = malloc(totalExec*sizeof(int *));//new int*[totalExec];
-			int** vqs = new int*[totalExec];
-			int** vms = new int*[totalExec];
-			for (int i = 0; i < totalExec; i++) {
-				vbs[i] = new int[tamanho];
-				vqs[i] = new int[tamanho];
-				vms[i] = new int[tamanho];
-			}*/
-
-			std::vector< std::vector<int> > vbs;
-			std::vector< std::vector<int> > vqs;
-			std::vector< std::vector<int> > vms;
-
-			vbs.reserve(totalExec);
-			vqs.reserve(totalExec);
-			vms.reserve(totalExec);
-
-			for (i = 0; i < totalExec; i++) {
-				for (int j = 0; j < tamanho; j++) {
-					vbs[i][j] = rand();
-					vqs[i][j] = rand();
-					vms[i][j] = rand();
-				}
-			}
-
-			for (i = 0; i < totalExec; i++) {
-
-				if (algoritmo == 1 || algoritmo == 4) {
-					//std::cout << "criaVetorRandomico VBS" << std::endl;
-					criaVetorRandomico(tamanho, vbs[i]);
-				}
-				if (algoritmo == 2 || algoritmo == 4) {
-					//std::cout << "criaVetorRandomico VBQ" << std::endl;
-					criaVetorRandomico(tamanho, vqs[i]);
-				}
-				if (algoritmo == 3 || algoritmo == 4) {
-					//std::cout << "criaVetorRandomico VMS" << std::endl;
-					criaVetorRandomico(tamanho, vms[i]);
-				}
-
-			}
-
-			//threads
-			std::vector<std::thread> bubble_threads;
-			//bubble_threads.reserve(totalExec);
-			std::vector<std::thread> quick_threads;
-			//quick_threads.reserve(totalExec);
-			std::vector<std::thread> merge_threads;
-			//merge_threads.reserve(totalExec);
-
-			if (algoritmo == 1 || algoritmo == 4) {
-				//std::cout << "bubble_threads.reserve " << totalExec << std::endl;
-				bubble_threads.reserve(totalExec);
-			}
-			if (algoritmo == 2 || algoritmo == 4) {
-				//std::cout << "quick_threads.reserve " << totalExec << std::endl;
-				quick_threads.reserve(totalExec);
-			}
-			if (algoritmo == 3 || algoritmo == 4) {
-				//std::cout << "merge_threads.reserve " << totalExec << std::endl;
-				merge_threads.reserve(totalExec);
-			}
-
-			//instancias
-			// Vetor para instancias para os algoritmos. Segue a qtd de execusões solicitada.
-			// necessárias várias instancias para que os resultados das threads, utilizem as ivars de cada
-			// intancia, e não alterem resultados de outras threads
-			std::vector <BubbleSort> bubbles;
-			std::vector <QuickSort> quicks;
-			std::vector <MergeSort> merges;
-
-			if (algoritmo == 1 || algoritmo == 4) {
-				//std::cout << "bubbles.reserve " << totalExec << std::endl;
-				bubbles.reserve(totalExec);
-				//instanciando
-				for (i = 0; i < totalExec; i++) {
-					//BubbleSort *b = new BubbleSort();
-					//std::cout << "instance of bubble" << &b << std::endl;
-					//bubbles.push_back(*b);
-					bubbles.push_back(*new BubbleSort());
-				}
-			}
-			if (algoritmo == 2 || algoritmo == 4) {
-				//std::cout << "quicks.reserve " << totalExec << std::endl;
-				quicks.reserve(totalExec);
-				for (i = 0; i < totalExec; i++) {
-					//QuickSort *q = new QuickSort();
-					//std::cout << "instance of quick" << &q << std::endl;
-					quicks.push_back(*new QuickSort());
-				}
-			}
-			if (algoritmo == 3 || algoritmo == 4) {
-				//std::cout << "merges.reserve " << totalExec << std::endl;
-				merges.reserve(totalExec);
-				for (i = 0; i < totalExec; i++) {
-					//MergeSort *m = new MergeSort();
-					//std::cout << "instance of merge" << &m << std::endl;
-					merges.push_back(*new MergeSort());
-				}
-			}
-
-
-			//INICIA THREADS
-			if (algoritmo == 1 || algoritmo == 4) {
-				std::cout << "Iniciando as bubble threads:" << std::endl;
-				for (i = 0; i < totalExec; i++) {
-					if (objetivoTeste == 1) {
-						//std::cout << "Bubble Objetivo 1 : " << &bubbles[i] << std::endl;
-						bubble_threads.push_back(bubbles[i].avaliaTempo(vbs[i], tamanho));
-					}
-					//else if (objetivoTeste == 2) {
-						//std::cout << "Bubble Objetivo 2" << std::endl;
-					//	bubble_threads.push_back(bubbles[i].avaliaCPU(vbs[i], tamanho));
-					//}
-					else if (objetivoTeste == 2) {
-						//std::cout << "Bubble Objetivo 2" << std::endl;
-						bubble_threads.push_back(bubbles[i].avaliaTicks(vbs[i], tamanho));
-					}
-					else if (objetivoTeste == 3) {
-						//std::cout << "Bubble Objetivo 3" << std::endl;
-						bubble_threads.push_back(bubbles[i].avaliaCiclos(vbs[i], tamanho));
-					}
-				}
-			}
-
-			if (algoritmo == 2 || algoritmo == 4) {
-				std::cout << "Iniciando as quicks threads:" << std::endl;
-				for (i = 0; i < totalExec; i++) {
-					if (objetivoTeste == 1) {
-						//std::cout << "Quick Objetivo 1" << std::endl;
-						quick_threads.push_back(quicks[i].avaliaTempo(vqs[i], tamanho));
-					}
-					//else if (objetivoTeste == 2) {
-						//std::cout << "Quick Objetivo 2" << std::endl;
-					//	quick_threads.push_back(quicks[i].avaliaCPU(vqs[i], tamanho));
-					//}
-					else if (objetivoTeste == 2) {
-						//std::cout << "Quick Objetivo 2" << std::endl;
-						quick_threads.push_back(quicks[i].avaliaTicks(vqs[i], tamanho));
-					}
-					else if (objetivoTeste == 2) {
-						//std::cout << "Quick Objetivo 2" << std::endl;
-						quick_threads.push_back(quicks[i].avaliaCiclos(vqs[i], tamanho));
-					}
-				}
-			}
-
-			if (algoritmo == 3 || algoritmo == 4) {
-				std::cout << "Iniciando as merge threads:" << std::endl;
-				for (i = 0; i < totalExec; i++) {
-					if (objetivoTeste == 1)
-						merge_threads.push_back(merges[i].avaliaTempo(vms[i], 0, tamanho - 1, tamanho));
-					//else if (objetivoTeste == 2)
-					//	merge_threads.push_back(merges[i].avaliaCPU(vms[i], 0, tamanho - 1, tamanho));
-					else if (objetivoTeste == 2)
-						merge_threads.push_back(merges[i].avaliaTicks(vms[i], 0, tamanho - 1, tamanho));
-					else if (objetivoTeste == 3)
-						merge_threads.push_back(merges[i].avaliaCiclos(vms[i], 0, tamanho - 1, tamanho));
-				}
-			}
-
-			for (i = 0; i < totalExec; i++) {
-				//std::cout << "Join" << std::endl;
-				//std::cout << "t\Bubble "<< &bubble_threads[i] << std::endl;
-				//std::cout << "t\Bubble "<< &quick_threads[i] << std::endl;
-				if (algoritmo == 1 || algoritmo == 4) {
-					bubble_threads[i].join();
-				}
-				if (algoritmo == 2 || algoritmo == 4) {
-					quick_threads[i].join();
-				}
-				if (algoritmo == 3 || algoritmo == 4) {
-					merge_threads[i].join();
-				}
-			}
-
-			
-
-		}
-		else { // --------------------------------------- SINGLETASK
-
-			std::vector<int[]> vetor_de_testes(1);
-			vetor_de_testes.reserve(1);
-
-			//const int tama = tamanho;
-			//int vetor_de_testes[tama];
+			const int tama = tamanho;
+			int vetor_de_testes[tama];
 
 			//criaVetorRandomico(tamanho, vbs);
 
@@ -532,7 +340,7 @@ int main(int argc, const char * argv[]) {
 				count_exec += 1;
 			}
 
-		}
+		
 
 		std::cout << "Confira os resultados gravados nos arquivos de log.\n" << std::endl;
 
