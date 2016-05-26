@@ -198,3 +198,8 @@ algoritmo:BubbleSort|tamanho:100000|mainThread:1|inicio:2016-05-25 22:58:20|fim:
 algoritmo:BubbleSort|tamanho:100000|mainThread:1|inicio:2016-05-25 22:58:54|fim:2016-05-25 22:59:29|clockticks:35252
 algoritmo:BubbleSort|tamanho:100000|mainThread:1|inicio:2016-05-25 22:59:29|fim:2016-05-25 23:00:04|clockticks:34672
 algoritmo:BubbleSort|tamanho:100000|mainThread:1|inicio:2016-05-25 23:00:04|fim:2016-05-25 23:00:39|clockticks:35308
+algoritmo:BubbleSort|tamanho:1000|mainThread:1|inicio:2016-05-26 17:13:31|fim:2016-05-26 17:13:31|clockticks:4
+algoritmo:BubbleSort|tamanho:1000|mainThread:1|inicio:2016-05-26 17:13:31|fim:2016-05-26 17:13:31|clockticks:3
+algoritmo:BubbleSort|tamanho:1000|mainThread:1|inicio:2016-05-26 17:13:31|fim:2016-05-26 17:13:31|clockticks:2
+algoritmo:BubbleSort|tamanho:1000|mainThread:1|inicio:2016-05-26 17:13:31|fim:2016-05-26 17:13:31|clockticks:4
+algoritmo:BubbleSort|tamanho:1000|mainThread:1|inicio:2016-05-26 17:13:31|fim:2016-05-26 17:13:31|clockticks:4
