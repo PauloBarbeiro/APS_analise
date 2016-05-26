@@ -28,8 +28,13 @@ class AlgoritmosOrdenacao
 
         //Time on Windows
         LARGE_INTEGER	frequency;        // ticks per second
-        LARGE_INTEGER t1, t2;           // ticks
-        double elapsedTime;
+        LARGE_INTEGER t1, t2;      // ticks
+
+        LARGE_INTEGER elapsedTicks;
+        LARGE_INTEGER microsec;
+        LARGE_INTEGER nanosec;
+
+        LARGE_INTEGER elapsedTime;
 
         //variáveis para clock ticks
         clock_t t;

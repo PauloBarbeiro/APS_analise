@@ -21,7 +21,7 @@ void AlgoritmosOrdenacao::gravaRegistroDeTempo(std::string nome, int tam, bool t
 
     textFile.open(textFileName, std::ios::app);
     textFile << "algoritmo:" << algoritmo << "|tamanho:" << tam << "|mainThread:"<< thread << "|inicio:" << inicio <<
-    "|fim:" << fim << "|duracao(nanosec):" << (long long unsigned int) elapsedTime << std::endl;
+    "|fim:" << fim << "|duracao(nanosec):" <<  elapsedTime.QuadPart << std::endl;
     textFile.close();
 
 }
@@ -97,24 +97,12 @@ void BubbleSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
 
     time( &endTime );
 
-    elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
-    std::cout << "t1.QuadPart: " << t1.QuadPart << std::endl;
-    std::cout << "t2.QuadPart: " << t2.QuadPart << std::endl;
-    std::cout << "frequency.QuadPart: " << frequency.QuadPart << std::endl;
-    std::cout << "t2 - t1: " << (t2.QuadPart - t1.QuadPart) << std::endl;
-    std::cout << "(t2 - t1) * 100.0 : " << (t2.QuadPart - t1.QuadPart)*100 << std::endl;
-    std::cout << "(t2 - t1) * 1000.0 : " << (t2.QuadPart - t1.QuadPart)*1000 << std::endl;
-    std::cout << "(t2 - t1) * 1000000.0 : " << (t2.QuadPart - t1.QuadPart)*1000000 << std::endl;
-    std::cout << "(t2 - t1) * 1000000000.0 : " << (t2.QuadPart - t1.QuadPart)*1000000000 << std::endl;
-    std::cout << "/n/n" << std::endl;
+    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * BILLION / frequency.QuadPart;
+    //elapsedTicks.QuadPart = t2.QuadPart - t1.QuadPart;
 
-    blablablablablablablabla
+    //std::strftime(inicio, 20, "%Y-%m-%d %H:%M:%S", localtime(&startTime));
 
-    //elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
-    //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
-	//printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
-
-    //gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho, thread);
+    gravaRegistroDeTempo("BubbleSort_TempoExecTotal", tamanho, thread);
 
 }
 
@@ -146,6 +134,7 @@ void BubbleSort::avaliaClockTicksTotal(int *v, int tam, bool thread){
     //fim da avaliação
     t = clock() - t;
     time( &endTime );
+
     gravaRegistroDeTicks("BubbleSort_TicksExecTotal", tamanho, thread);
 
 }
@@ -194,7 +183,11 @@ void BubbleSort::avaliaCiclosTotal(int *v, int tam, bool thread){
 
     //inicio da avaliação
     int tamanho = tam;
+    //inicio da avaliação
+    time( &startTime );
+
     ciclos = 0;
+
 
     int i = tam;
     int trocou;
@@ -291,8 +284,8 @@ void QuickSort::executaQuickComCiclos(int* v, int tam){
         v[0] = v[b];
         v[b] = x;
         // ordena sub-vetores restantes
-        executaQuick(v, b);
-        executaQuick(&v[a], tam-a);
+        executaQuickComCiclos(v, b);
+        executaQuickComCiclos(&v[a], tam-a);
         //for(k = 0; k < j; k++)
         //    printf("%d ", v[k]);
         //printf("\n");
@@ -316,7 +309,7 @@ void QuickSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
 
     time( &endTime );
 
-    elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
+    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
     //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
 
     gravaRegistroDeTempo("QuickSort_TempoExecTotal", tam, thread);
@@ -343,14 +336,14 @@ void QuickSort::avaliaCiclosTotal(int *v, int tam, bool thread){
 
     //inicio da avaliação
     time( &startTime );
-
+    ciclos = 0;
 
     executaQuickComCiclos(v, tam);
 
     //fim da avaliação
     //ciclos += 1; //TODO :: isso esta errado
     time( &endTime );
-    gravaRegistroDeTicks("QuickSort_CiclosExecTotal", tam, thread);
+    gravaRegistroDeCiclos("QuickSort_CiclosExecTotal", tam, thread);
     ciclos = 0;
 }
 
@@ -429,8 +422,8 @@ void MergeSort::executaMergeSortComCiclos(int* v, int inicio, int fim){
         return;
     //ordenacao recursiva das duas metades
     meio = (inicio + fim)/2;
-    executaMergeSort(v, inicio, meio);
-    executaMergeSort(v, meio+1, fim);
+    executaMergeSortComCiclos(v, inicio, meio);
+    executaMergeSortComCiclos(v, meio+1, fim);
     //intercalacao no vetor temporario t
     i = inicio;
     j = meio+1;
@@ -481,7 +474,7 @@ void MergeSort::avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam,
 
     time( &endTime );
 
-    elapsedTime = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
+    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
     //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
 
     gravaRegistroDeTempo("MergeSort_TempoExecTotal", tam, thread);
@@ -508,6 +501,9 @@ void MergeSort::avaliaCiclosTotal(int* v, int inicio, int fim, int tam, bool thr
 
     //inicio da avaliação
     //int tamanho = tam;
+    //inicio da avaliação
+    time( &startTime );
+
     ciclos = 0;
 
     executaMergeSortComCiclos(v, inicio, fim);
@@ -515,9 +511,10 @@ void MergeSort::avaliaCiclosTotal(int* v, int inicio, int fim, int tam, bool thr
 
     //fim da avaliação
     // TODO - avaliação de ciclos esta errada
-    ciclos += 1;
 
-    gravaRegistroDeTicks("MergeSort_CiclosExecTotal", tam, thread);
+    time( &endTime );
+
+    gravaRegistroDeCiclos("MergeSort_CiclosExecTotal", tam, thread);
     ciclos = 0;
 }
 

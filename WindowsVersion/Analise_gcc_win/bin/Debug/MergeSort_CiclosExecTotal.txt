@@ -1,0 +1,14 @@
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-04-03 10:19:36|fim:1969-12-31 21:00:00|clockticks:1996637400
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-04-03 10:19:36|fim:1969-12-31 21:00:00|clockticks:1996637400
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-04-03 10:19:36|fim:1969-12-31 21:00:00|clockticks:1996637400
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-04-03 10:19:36|fim:1969-12-31 21:00:00|clockticks:1996637400
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-04-03 10:19:36|fim:1969-12-31 21:00:00|clockticks:1996637400
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-05-22 17:36:56|fim:1969-12-31 21:00:00|ciclos:2
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-05-22 17:36:56|fim:1969-12-31 21:00:00|ciclos:2
+algoritmo:MergeSort|tamanho:1000|mainThread:1|inicio:1970-05-22 17:36:56|fim:1969-12-31 21:00:00|ciclos:2
+algoritmo:MergeSort|tamanho:10000|mainThread:1|inicio:2016-05-26 17:23:44|fim:2016-05-26 17:23:44|ciclos:1
+algoritmo:MergeSort|tamanho:10000|mainThread:1|inicio:2016-05-26 17:23:44|fim:2016-05-26 17:23:44|ciclos:1
+algoritmo:MergeSort|tamanho:10000|mainThread:1|inicio:2016-05-26 17:23:44|fim:2016-05-26 17:23:44|ciclos:1
+algoritmo:MergeSort|tamanho:10000|mainThread:1|inicio:2016-05-26 17:25:33|fim:2016-05-26 17:25:33|ciclos:9999
+algoritmo:MergeSort|tamanho:10000|mainThread:1|inicio:2016-05-26 17:25:33|fim:2016-05-26 17:25:33|ciclos:9999
+algoritmo:MergeSort|tamanho:10000|mainThread:1|inicio:2016-05-26 17:25:33|fim:2016-05-26 17:25:33|ciclos:9999
