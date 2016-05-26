@@ -1,0 +1,17 @@
+﻿  APS_Analise_CommandLine_win32.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector(1240): error C2036: 'int (*)[]': unknown size
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector(1228): note: while compiling class template member function 'int (&std::vector<int [],std::allocator<_Ty>>::operator [](unsigned int))[]'
+          with
+          [
+              _Ty=int []
+          ]
+  c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\aps_analise_commandline_win32\aps_analise_commandline_win32\aps_analise_commandline_win32.cpp(242): note: see reference to function template instantiation 'int (&std::vector<int [],std::allocator<_Ty>>::operator [](unsigned int))[]' being compiled
+          with
+          [
+              _Ty=int []
+          ]
+  c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\aps_analise_commandline_win32\aps_analise_commandline_win32\aps_analise_commandline_win32.cpp(232): note: see reference to class template instantiation 'std::vector<int [],std::allocator<_Ty>>' being compiled
+          with
+          [
+              _Ty=int []
+          ]

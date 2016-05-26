@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1464221625 source:c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\analise_gcc_win\main.cpp
+	<iostream>
+	<stdio.h>
+	<sstream>
+	<stdlib.h>
+	<limits>
+	<sys/timeb.h>
+	<ctime>
+	<time.h>
+	<math.h>
+	<vector>
+	<thread>
+	<fstream>
+	"AlgoritmoOrdenacao.h"
+
+1464221686 c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\analise_gcc_win\include\algoritmoordenacao.h
+	<stdio.h>
+	<iostream>
+	<time.h>
+	<thread>
+	<windows.h>
+
+1464284368 source:c:\users\paulo\documents\github\unip\aps\aps_analise\windowsversion\analise_gcc_win\src\algoritmoordenacao.cpp
+	"AlgoritmoOrdenacao.h"
+	<iostream>
+	<fstream>
+	<Windows.h>
+
