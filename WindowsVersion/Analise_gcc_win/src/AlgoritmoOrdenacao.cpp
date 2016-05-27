@@ -139,46 +139,6 @@ void BubbleSort::avaliaClockTicksTotal(int *v, int tam, bool thread){
 
 }
 
-/*
-void BubbleSort::avaliaTempoCPU(int *v, int tam, bool thread){
-    int tamanho = tam;
-    //inicio da avaliação
-    time( &startTime );
-    //start = mach_absolute_time();
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start_t);	// mark start time
-
-
-
-    int i = tam;
-    int trocou;
-    do{
-        tam--;
-        trocou = 0;
-        for(i = 0; i < tam; i++){
-            if(v[i] > v[i + 1]){
-                int aux = 0;
-                aux = v[i];
-                v[i] = v[i+1];
-                v[i+1] = aux;
-                trocou = 1;
-                //for(k = 0; k < j; k++)
-                //    printf("%d ", v[k]);
-                //printf("%d",i);
-            }
-        }
-    }while(trocou);
-
-    //fim da avaliação
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end_t);	// mark the end time
-    time( &endTime );
-
-    diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
-	//printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
-
-    gravaRegistroDeTempo("BubbleSort_TempoCPUTotal", tamanho, thread);
-
-}//*/
-
 void BubbleSort::avaliaCiclosTotal(int *v, int tam, bool thread){
 
     //inicio da avaliação
@@ -309,7 +269,7 @@ void QuickSort::avaliaTempoDeExecucaoTotal(int *v, int tam, bool thread){
 
     time( &endTime );
 
-    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
+    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * BILLION / frequency.QuadPart;
     //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
 
     gravaRegistroDeTempo("QuickSort_TempoExecTotal", tam, thread);
@@ -347,28 +307,6 @@ void QuickSort::avaliaCiclosTotal(int *v, int tam, bool thread){
     ciclos = 0;
 }
 
-/*
-void QuickSort::avaliaTempoCPU(int *v, int tam, bool thread){
-    int tamanho = tam;
-    //inicio da avaliação
-    time( &startTime );
-    //start = mach_absolute_time();
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start_t);	// mark start time
-
-    executaQuick(v, tam);
-
-    //fim da avaliação
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end_t);	// mark the end time
-    time( &endTime );
-
-    diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
-	//printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
-
-    gravaRegistroDeTempo("QuickSort_TempoCPUTotal", tamanho, thread);
-
-}
-
-//*/
 
 
 /* ========================================================================================= */
@@ -474,7 +412,7 @@ void MergeSort::avaliaTempoDeExecucaoTotal(int* v, int inicio, int fim, int tam,
 
     time( &endTime );
 
-    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * 1000.0 / frequency.QuadPart;
+    elapsedTime.QuadPart = (t2.QuadPart - t1.QuadPart) * BILLION / frequency.QuadPart;
     //diff = BILLION * (end_t.tv_sec - start_t.tv_sec) + end_t.tv_nsec - start_t.tv_nsec;
 
     gravaRegistroDeTempo("MergeSort_TempoExecTotal", tam, thread);
