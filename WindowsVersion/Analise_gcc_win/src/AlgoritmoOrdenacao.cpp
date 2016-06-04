@@ -243,13 +243,14 @@ void QuickSort::executaQuickComCiclos(int* v, int tam){
         // troca pivo
         v[0] = v[b];
         v[b] = x;
+        ciclos += 1;
         // ordena sub-vetores restantes
         executaQuickComCiclos(v, b);
         executaQuickComCiclos(&v[a], tam-a);
         //for(k = 0; k < j; k++)
         //    printf("%d ", v[k]);
         //printf("\n");
-        ciclos += 1;
+
     }
 }
 
@@ -388,11 +389,12 @@ void MergeSort::executaMergeSortComCiclos(int* v, int inicio, int fim){
     //copia vetor intercalado para o vetor original
     for(i = inicio; i <= fim; i++)
         v[i] = t[i-inicio];
+    ciclos += 1;
     //for(z = 0; z < tamanho; z++)
     //    printf("%d ", v[z]);
     //printf("\n");
     free(t);
-    ciclos += 1;
+
 }
 
 
