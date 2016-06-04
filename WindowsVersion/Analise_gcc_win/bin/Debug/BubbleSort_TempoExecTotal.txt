@@ -1,0 +1,12 @@
+algoritmo:BubbleSort|tamanho:1000|mainThread:0|inicio:2016-05-30 21:42:42|fim:2016-05-30 21:42:42|duracao(nanosec):4448880
+algoritmo:BubbleSort|tamanho:1000|mainThread:0|inicio:2016-05-30 21:42:42|fim:2016-05-30 21:42:42|duracao(nanosec):4318446
+algoritmo:BubbleSort|tamanho:1000|mainThread:0|inicio:2016-05-30 21:42:42|fim:2016-05-30 21:42:42|duracao(nanosec):3606830
+algoritmo:BubbleSort|tamanho:1000|mainThread:0|inicio:2016-05-30 21:42:42|fim:2016-05-30 21:42:42|duracao(nanosec):4344960
+algoritmo:BubbleSort|tamanho:1000|mainThread:0|inicio:2016-05-30 21:42:42|fim:2016-05-30 21:42:42|duracao(nanosec):4495067
+algoritmo:BubbleSort|tamanho:10000|mainThread:0|inicio:2016-05-30 21:43:59|fim:2016-05-30 21:44:00|duracao(nanosec):570473681
+algoritmo:BubbleSort|tamanho:10000|mainThread:0|inicio:2016-05-30 21:43:59|fim:2016-05-30 21:44:00|duracao(nanosec):550537325
+algoritmo:BubbleSort|tamanho:10000|mainThread:0|inicio:2016-05-30 21:43:59|fim:2016-05-30 21:44:00|duracao(nanosec):588526224
+algoritmo:BubbleSort|tamanho:10000|mainThread:0|inicio:2016-05-30 21:43:59|fim:2016-05-30 21:44:00|duracao(nanosec):593940746
+algoritmo:BubbleSort|tamanho:10000|mainThread:0|inicio:2016-05-30 21:43:59|fim:2016-05-30 21:44:00|duracao(nanosec):593770968
+algoritmo:BubbleSort|tamanho:50000|mainThread:0|inicio:2016-05-30 21:44:24|fim:2016-05-30 21:44:32|duracao(nanosec):8072935470
+algoritmo:BubbleSort|tamanho:100000|mainThread:0|inicio:2016-05-30 21:46:30|fim:2016-05-30 21:47:04|duracao(nanosec):33095303037

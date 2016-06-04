@@ -368,7 +368,9 @@ int main(int argc, const char * argv[])
             BubbleSort *bubbleS;
             QuickSort *quickS;
             MergeSort *mergeS;
-            std::cout << "ALgoritmo: " << algoritmo << std::endl;
+
+            std::cout << "Algoritmo: " << algoritmo << std::endl;
+
             switch(algoritmo){
             case 1:
                 bubbleS = new BubbleSort();
